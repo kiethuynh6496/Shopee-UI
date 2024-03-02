@@ -1,0 +1,33 @@
+.support-chat {
+  position: fixed;
+  right: 8px;
+  bottom: 0px;
+  z-index: 99999;
+  font-weight: 400;
+  padding: 12px;
+
+  background-color: #fff;
+  border-radius: 4px 4px 0 0;
+  box-shadow: 0 4px 20px 0 rgba(28, 28, 51, 0.16);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 48px;
+  width: 100px;
+  cursor: pointer;
+
+  svg {
+    color: #ee4d2d;
+    height: 24px;
+    margin-right: 8px;
+    opacity: 1;
+    width: 24px;
+  }
+
+  span {
+    font-size: 18px;
+    font-weight: 500;
+    color: #ee5334;
+  }
+}

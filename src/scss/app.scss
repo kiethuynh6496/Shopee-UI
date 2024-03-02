@@ -1,0 +1,23 @@
+//variable
+@import './variable.scss';
+
+// base...
+// @import './generic/normalize.scss';
+// @import './generic/box-sizing.scss';
+@import './base/base.scss';
+
+// components...
+@import './components/form.scss';
+@import './components/product-card.scss';
+@import './components/common.scss';
+@import './components/header.scss';
+
+// features...
+@import './features/landing.scss';
+@import './features/auth.scss';
+@import './features/product.scss';
+@import './features/cart.scss';
+@import './features/checkout.scss';
+
+// objects...
+// @import './objects/layout.scss';

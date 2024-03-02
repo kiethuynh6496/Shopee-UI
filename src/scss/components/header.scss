@@ -1,0 +1,58 @@
+.header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.09);
+  background-color: white;
+
+  .header-logo__wrapper {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    height: 6.25rem;
+    justify-content: space-between;
+    margin-left: 18px;
+
+    svg {
+      width: 8.125rem;
+      height: 2.875rem;
+      cursor: pointer;
+    }
+
+    .header-logo__page-name {
+      margin-left: 0.9375rem;
+      border-left: 0.0625rem solid #ee4d2d;
+      color: #ee4d2d;
+      font-size: 1.25rem;
+      line-height: 1.875rem;
+      height: 1.875rem;
+      padding-left: 0.9375rem;
+      text-transform: capitalize;
+      margin-top: 15px;
+    }
+  }
+
+  .header__page-searchbar {
+    width: 38.8125rem;
+    display: flex;
+    height: 2.5rem;
+
+    input {
+      flex: 1;
+      padding: 0 0.625rem;
+      border: 2px solid #ee4d2d;
+    }
+
+    button {
+      width: 5rem;
+      background-color: #ee4d2d;
+      color: white;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      svg {
+        width: 14px;
+        height: 14px;
+      }
+    }
+  }
+}

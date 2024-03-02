@@ -1,0 +1,121 @@
+{
+  "landing": {
+    "header": {
+      "left_side": {
+        "tag1": "Kênh Người Bán",
+        "tag2": "Trở thành Người bán Shopee",
+        "tag3": "Tải ứng dụng",
+        "tag4": "Kết nối"
+      },
+
+      "right_side": {
+        "tag1": "Thông Báo",
+        "tag2": "Hỗ Trợ",
+        "tag3": "Tiếng Việt",
+        "tag4": "English",
+        "tag5": "Đăng Ký",
+        "tag6": "Đăng Nhập",
+        "tran_his": "Lịch Sử Giao Dịch",
+        "acc_detail": "Thông Tin Tài Khoản",
+        "logout": "Đăng Xuất",
+        "balance": "Số Dư",
+        "registered": "Đã Đăng Ký",
+        "unregistered": "Chưa Đăng Ký",
+        "products": "Quản Lý Sản Phẩm"
+      }
+    }
+  },
+
+  "product": {
+    "detail": {
+      "quantity": "Số Lượng",
+      "available": "Sản Phẩm Có Sẵn",
+      "warranty": "Shopee Đảm Bảo",
+      "refund_day": "Ngày Trả Hàng / Hoàn Tiền",
+      "detail": "CHI TIẾT SẢN PHẨM",
+      "type": "Danh Mục",
+      "warehouse": "Kho hàng",
+      "from": "Gửi từ",
+      "description": "MÔ TẢ SẢN PHẨM",
+      "review": "ĐÁNH GIÁ SẢN PHẨM",
+      "out_of": "trên",
+      "star": "Sao",
+      "image": "Có Hình Ảnh",
+      "video": "Video",
+      "comment": "Có Bình Luận",
+      "addCart": "Thêm Vào Giỏ Hàng",
+      "buy_now": "Mua Ngay",
+      "alert_modal": "Ví của bạn không đủ để mua sản phẩm này"
+    }
+  },
+
+  "cart": {
+    "cart": "Giỏ Hàng",
+    "notification": "Nhấn vào mục Mã giảm giá ở cuối trang để hưởng miễn phí vận chuyển bạn nhé!",
+    "title1": "Sản Phẩm",
+    "title2": "Đơn giá",
+    "title3": "Số Lượng",
+    "title4": "Số Tiền",
+    "title5": "Thao Tác",
+    "type": "Loại hàng hóa",
+    "voucher": "Chọn hoặc nhập mã",
+    "select_all": "Chọn Tất Cả",
+    "delete": "Xóa",
+    "save": "Lưu vào mục Đã thích",
+    "summary": "Tổng thanh toán",
+    "product": "Sản phẩm",
+    "submit_btn": "Mua Hàng"
+  },
+
+  "checkout": {
+    "header": "Thanh Toán",
+    "address": "Địa Chỉ Nhận Hàng",
+    "change": "Thay Đổi",
+    "add_new": "Thêm Mới",
+    "default": "Mặc Định",
+    "title1": "Sản phẩm",
+    "title2": "Đơn giá",
+    "title3": "Số lượng",
+    "title4": "Thành tiền",
+    "type": "Loại",
+    "e_bill": "Hóa đơn điện tử",
+    "require": "Yêu Cầu Ngay",
+    "voucher": "Voucher của Shop",
+    "select_voucher": "Chọn Voucher",
+    "payment_title": "Phương thức thanh toán",
+    "payment_label": "Thanh toán qua TK Shopee",
+    "total_price": "Tổng thanh toán",
+    "summary_label": "Nhấn \"Đặt hàng\" đồng nghĩa với việc bạn đồng ý tuân theo",
+    "summary_label_nav": "Điều khoản Shopee",
+    "order": "Đặt hàng",
+    "order_checkouted": "Sản phẩm đã được thanh toán",
+    "continue_buy": "Tiếp Tục Mua Hàng"
+  },
+
+  "auth": {
+    "placeholder1": "Email/Số điện thoại/Tên đăng nhập",
+    "placeholder2": "Mật khẩu",
+    "or": "HOẶC",
+    "support": "Bạn cần giúp đỡ?",
+
+    "account_existed": "Tài khoản đã tồn tại",
+    "wrong_user_pass": "Tên người dùng hoặc mật khẩu không chính xác",
+    "input_email_alert": "Vui lòng nhập email của bạn!",
+    "input_pass_alert": "Vui lòng nhập mật khẩu của bạn!",
+
+    "register": {
+      "signup": "Đăng ký",
+      "other_option_label": "Bạn đã có tài khoản?",
+      "login": "Đăng nhập"
+    },
+
+    "login": {
+      "signin": "Đăng nhập",
+      "other_option_label": "Bạn mới biết đến Shopee?",
+      "qrlabel": "Đăng nhập với mã<br />QR",
+      "sms": "Đăng nhập với SMS",
+      "fogot": "Quên mật khẩu",
+      "signup": "Đăng ký"
+    }
+  }
+}
