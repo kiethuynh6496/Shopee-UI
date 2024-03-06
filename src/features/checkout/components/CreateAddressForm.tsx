@@ -3,7 +3,6 @@ import { useForm } from 'antd/lib/form/Form';
 import { locationApi } from 'api/locationApi';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import React, { useCallback, useEffect, useState } from 'react';
-import { checkoutActions, selectUpdateAddressSelected } from '../checkoutSlice';
 import { addressApi } from 'api/addressApi';
 import { AddressRequest, AddressResponse } from 'models';
 
@@ -16,20 +15,12 @@ const CreateAddressForm: React.FunctionComponent<CreateAddressFormProps> = (prop
   const [province, setProvince] = useState<string>('');
   const [district, setDistrict] = useState<string>('');
   const [addressData, setAddressData] = useState<AddressResponse>();
-  const updateAddressSelected = useAppSelector(selectUpdateAddressSelected);
   const token = localStorage.getItem('token') || '';
   const [form] = useForm();
   const dispatch = useAppDispatch();
 
   const handleAddress = (data: any) => {
-    if (!updateAddressSelected) {
-      createAddress(data);
-      dispatch(checkoutActions.setisModifyAddressStep(false));
-    } else {
-      updateAddress(updateAddressSelected, data);
-      dispatch(checkoutActions.setisModifyAddressStep(false));
-      dispatch(checkoutActions.setUpdateAddressSelected(null));
-    }
+
   };
 
   const getLocationData = useCallback(async () => {
@@ -37,13 +28,6 @@ const CreateAddressForm: React.FunctionComponent<CreateAddressFormProps> = (prop
       const res = await locationApi.getVNLocation();
       if (res) setLocationData(res.data);
     } catch (error) {}
-  }, []);
-
-  useEffect(() => {
-    getLocationData();
-    if (updateAddressSelected) {
-      getAddressData(updateAddressSelected);
-    }
   }, []);
 
   const updateAddress = useCallback(async (id: number, data: AddressRequest) => {
@@ -170,7 +154,6 @@ const CreateAddressForm: React.FunctionComponent<CreateAddressFormProps> = (prop
         <Button
           danger
           ghost
-          onClick={() => dispatch(checkoutActions.setisModifyAddressStep(false))}
         >
           Trở Lại
         </Button>

@@ -21,25 +21,25 @@ const HeaderTopNav: React.FunctionComponent<HeaderTopNavProps> = (props) => {
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const { t, i18n } = useTranslation();
 
-  const getUserDetail = useCallback(async () => {
-    const res = await userApi.getUserDetail(localStorage.getItem('token') || '').catch(() => {
-      dispatch(authActions.setIsLoggedIn(false));
-      localStorage.removeItem('token');
-    });
+  // const getUserDetail = useCallback(async () => {
+  //   const res = await userApi.getUserDetail(localStorage.getItem('token') || '').catch(() => {
+  //     dispatch(authActions.setIsLoggedIn(false));
+  //     localStorage.removeItem('token');
+  //   });
 
-    if (res) {
-      setUserDetail(res);
-      dispatch(authActions.setIsLoggedIn(true));
-    }
-  }, []);
+  //   if (res) {
+  //     setUserDetail(res);
+  //     dispatch(authActions.setIsLoggedIn(true));
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    getUserDetail();
-  }, []);
+  // useEffect(() => {
+  //   getUserDetail();
+  // }, []);
 
-  const handlePopover = (value: boolean) => {
-    getUserDetail();
-  };
+  // const handlePopover = (value: boolean) => {
+  //   getUserDetail();
+  // };
 
   const logout = useCallback(async () => {
     const res = await authApi.logout(localStorage.getItem('token') || '').catch(() => {
@@ -151,7 +151,7 @@ const HeaderTopNav: React.FunctionComponent<HeaderTopNavProps> = (props) => {
           ) : (
             <Popover
               style={{ width: '600px' }}
-              onVisibleChange={handlePopover}
+              // onVisibleChange={handlePopover}
               placement="bottomRight"
               title={<span>{userDetail?.email}</span>}
               content={content}

@@ -1,11 +1,17 @@
-import { ProductInfo } from "models/product/productInfo";
+import { ProductInfo } from 'models/product/productInfo';
 
 export interface ShoppingCartInfo {
-    shoppingCartItems: ProductInfo[];
-  }
-
+  id: number;
+  userId: string;
+  shoppingCartItems: ShoppingCartItems[];
+}
+export interface ShoppingCartItems {
+  itemId: number;
+  item: ProductInfo;
+  quantity: number;
+}
 export interface ShoppingCartResponse {
-    statusCode: number;
-    massage: string;
-    data: ShoppingCartInfo;
+  statusCode: number;
+  massage: string;
+  data: ShoppingCartInfo;
 }

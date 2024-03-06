@@ -4,7 +4,6 @@ import paymentApi from 'api/paymentApi';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { checkoutActions, selectIsConfirmModal } from '../checkoutSlice';
 
 interface ConfirmModalProps {
   orderId: number;
@@ -14,7 +13,6 @@ const ConfirmModal: React.FunctionComponent<ConfirmModalProps> = ({ orderId }) =
   const [loading, setLoading] = useState<boolean>(false);
   const token = localStorage.getItem('token') || '';
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
-  const isConfirmModal = useAppSelector(selectIsConfirmModal);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -40,12 +38,10 @@ const ConfirmModal: React.FunctionComponent<ConfirmModalProps> = ({ orderId }) =
   };
 
   const handleOpenModal = (value: boolean) => {
-    dispatch(checkoutActions.setIsConfirmModal(value));
   };
 
   return (
     <Modal
-      visible={isConfirmModal}
       centered
       onOk={() => handleOpenModal(false)}
       onCancel={() => handleOpenModal(false)}

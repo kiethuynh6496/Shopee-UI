@@ -7,7 +7,7 @@ import { ProductInfo } from 'models/product/productInfo';
 import React, { useCallback, useEffect, useState } from 'react';
 import Banner from '../components/Banner';
 import CategoryContainer from '../components/CategoryContainer';
-import { Button, Skeleton } from 'antd';
+import { Skeleton } from 'antd';
 
 interface LandingPageProps {}
 

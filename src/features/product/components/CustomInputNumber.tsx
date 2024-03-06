@@ -1,16 +1,14 @@
 import { InputNumber } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
 
 interface CustomInputNumberProps {
   value: number;
   onChange?: (value: number) => void;
-  isDisable?: boolean;
 }
 
 const CustomInputNumber: React.FunctionComponent<CustomInputNumberProps> = ({
   value,
   onChange,
-  isDisable,
 }) => {
   const handleIncrease = () => {
     if (onChange) {
@@ -26,7 +24,7 @@ const CustomInputNumber: React.FunctionComponent<CustomInputNumberProps> = ({
 
   return (
     <div className="custom-input-number">
-      {!isDisable && (
+      {
         <button className="custom-input-number-button" onClick={handleDecrease}>
           <svg
             enableBackground="new 0 0 10 10"
@@ -38,18 +36,11 @@ const CustomInputNumber: React.FunctionComponent<CustomInputNumberProps> = ({
             <polygon points="4.5 4.5 3.5 4.5 0 4.5 0 5.5 3.5 5.5 4.5 5.5 10 5.5 10 4.5"></polygon>
           </svg>
         </button>
-      )}
+      }
 
-      <InputNumber
-        disabled={isDisable}
-        min={1}
-        max={9999}
-        defaultValue={1}
-        value={value}
-        onChange={onChange}
-      />
+      <InputNumber min={1} max={9999} defaultValue={1} value={value} onChange={onChange} />
 
-      {!isDisable && (
+      {
         <button className="custom-input-number-button" onClick={handleIncrease}>
           <svg
             enableBackground="new 0 0 10 10"
@@ -61,7 +52,7 @@ const CustomInputNumber: React.FunctionComponent<CustomInputNumberProps> = ({
             <polygon points="10 4.5 5.5 4.5 5.5 0 4.5 0 4.5 4.5 0 4.5 0 5.5 4.5 5.5 4.5 10 5.5 10 5.5 5.5 10 5.5"></polygon>
           </svg>
         </button>
-      )}
+      }
     </div>
   );
 };

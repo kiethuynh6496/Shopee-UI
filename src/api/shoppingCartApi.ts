@@ -1,9 +1,9 @@
 import { ShoppingCartResponse } from 'models/shoppingCart/shoppingCartInfo';
-import axiosClient, { config } from './axiosClient';
+import axiosClient from './axiosClient';
 
 const shoppingCartApi = {
-  getShoppingCart(id: number): Promise<ShoppingCartResponse> {
-    const url = `/shoppingcart/${id}`;
+  getShoppingCart(): Promise<ShoppingCartResponse> {
+    const url = `/shoppingcart`;
     return axiosClient.get(url);
   },
   createShoppingCartItem(productId: number, quantity: number): Promise<boolean> {

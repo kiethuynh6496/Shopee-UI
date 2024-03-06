@@ -233,9 +233,18 @@
       gap: 20px;
       align-items: center;
       font-size: 16px;
-      margin: 0 56px;
-      visibility: hidden;
+      margin: 0 25px;
 
+      .ant-badge{
+        .ant-badge-count{
+          top: 20px;
+          right: 18px;
+          span{
+            padding: 0;
+            font-size: 15px;
+          }
+        }
+      }
       button {
         cursor: pointer;
         border: none;

@@ -1,11 +1,9 @@
-import orderApi from 'api/orderApi';
 import productApi from 'api/productApi';
 import { useAppSelector } from 'redux/hooks';
 import warrantyIcon from 'assets/images/warranty_icon.png';
-import { Breadcrumb, ModalComponent } from 'components/Common';
+import { Breadcrumb } from 'components/Common';
 import { CoinIcon } from 'components/Icons/CoinIcon';
-import { selectIsLoggedIn } from 'features/auth/authSlice';
-import { ProductInfo, ProductResponse } from 'models/product/productInfo';
+import { ProductInfo } from 'models/product/productInfo';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import CustomInputNumber from '../components/CustomInputNumber';
@@ -13,7 +11,7 @@ import ProductDetailOption from '../components/ProductDetailOption';
 import ProductDetailReview from '../components/ProductDetailReview';
 import RateSummary from '../components/RateSummary';
 import { useTranslation } from 'react-i18next';
-import { Avatar, Skeleton } from 'antd';
+import { Skeleton } from 'antd';
 
 interface ProductDetailPageProps {}
 
@@ -26,7 +24,6 @@ const ProductDetailPage: React.FunctionComponent<ProductDetailPageProps> = (prop
   const { t } = useTranslation();
 
   const locate = useLocation();
-  const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const navigate = useNavigate();
 
   useEffect(() => {

@@ -1,74 +1,42 @@
 import { Checkbox, Skeleton } from 'antd';
-import orderApi from 'api/orderApi';
 import discountLogo from 'assets/images/free_ship_logo.png';
 import { LandingLayoutFooter } from 'components/Common';
 import HeaderComponent from 'components/Common/HeaderComponent';
-import { OrderGetInformation } from 'models/order/orderGetInformation';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useCallback, useEffect, useState } from 'react';
 import CartItem from '../components/CartItem';
 import CartSummary from '../components/CartSummary';
 import { useTranslation } from 'react-i18next';
+import shoppingCartApi from 'api/shoppingCartApi';
+import { ShoppingCartResponse } from 'models/shoppingCart/shoppingCartInfo';
+import { getCookie } from 'utils';
 
 interface CartPageProps {}
 
 const CartPage: React.FunctionComponent<CartPageProps> = (props) => {
-  const [orderData, setOrderData] = useState<OrderGetInformation>();
-  const [isCheckedAll, setIsCheckedAll] = useState<boolean>(false);
-  const [orderId, setOrderId] = useState<number>();
-  const summaryRef = useRef<any>(null);
-  const fixedSummaryRef = useRef<any>(null);
-  const token = useRef(localStorage.getItem('token')).current || '';
-  const location = useLocation();
-  const { t } = useTranslation();
+  const [shoppingCart, setShoppingCart] = useState<ShoppingCartResponse>();
 
-  useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-    if (location.search) {
-      const orderId = queryParams.get('state');
-      if (orderId) {
-        setOrderId(Number(orderId));
-      }
+  const { t } = useTranslation();
+  const [isCheckedAll, setIsCheckedAll] = useState<boolean>(false);
+
+  const getShoppingCart = useCallback(async () => {
+    const res = await shoppingCartApi.getShoppingCart();
+    console.log(res);
+    if (res) {
+      setShoppingCart(res);
     }
   }, []);
 
   useEffect(() => {
-    if (orderId !== null && orderId !== 0) {
-      getOrderData(orderId);
+    const userId = getCookie('userId') ?? '';
+    if (userId) {
+      getShoppingCart();
       setIsCheckedAll(true);
-    }
-  }, [orderId]);
-
-  const getOrderData = useCallback(async (orderid) => {
-    const res = await orderApi.getOrder(token, orderid);
-    if (res) {
-      setOrderData(res);
     }
   }, []);
 
   const handleCheckAll = () => {
     setIsCheckedAll(!isCheckedAll);
   };
-
-  const onScroll = () => {
-    if (summaryRef.current) {
-      const top = summaryRef.current.getBoundingClientRect().top;
-      const windowHeight = window.innerHeight;
-
-      if (top < windowHeight - 110) {
-        fixedSummaryRef.current.style.display = 'none';
-      } else {
-        fixedSummaryRef.current.style.display = 'block';
-      }
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('scroll', onScroll);
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-    };
-  }, []);
 
   return (
     <>
@@ -95,35 +63,26 @@ const CartPage: React.FunctionComponent<CartPageProps> = (props) => {
             </div>
 
             <div className="cart__list">
-              {orderData ? (
-                <CartItem isChecked={isCheckedAll} disableQuantity itemData={orderData} />
+              {shoppingCart?.data.shoppingCartItems ? (
+                shoppingCart?.data.shoppingCartItems.map((e, i) => (
+                  <CartItem isChecked={isCheckedAll} key={i} itemData={e} />
+                ))
               ) : (
                 <Skeleton active />
               )}
             </div>
           </div>
 
-          {orderData ? (
+          {shoppingCart?.data.shoppingCartItems ? (
             <CartSummary
-              forwardedRef={summaryRef}
               setIsCheckedAll={setIsCheckedAll}
               isCheckedAll={isCheckedAll}
-              orderData={orderData}
+              cartData={shoppingCart?.data.shoppingCartItems}
             />
           ) : (
             <Skeleton active />
           )}
         </div>
-
-        {!orderId && orderData && (
-          <CartSummary
-            forwardedRef={fixedSummaryRef}
-            isFixed={true}
-            setIsCheckedAll={setIsCheckedAll}
-            isCheckedAll={isCheckedAll}
-            orderData={orderData}
-          />
-        )}
       </div>
 
       <LandingLayoutFooter />

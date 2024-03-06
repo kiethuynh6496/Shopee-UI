@@ -1,30 +1,28 @@
 import { Button, Checkbox } from 'antd';
 import orderApi from 'api/orderApi';
 import { CoinIcon, VoucherIcon } from 'components/Icons';
-import { OrderGetInformation } from 'models';
-import React, { useCallback, useState } from 'react';
+import { ShoppingCartItems } from 'models/shoppingCart/shoppingCartInfo';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 interface CartSummaryProps {
   setIsCheckedAll: (val: boolean) => void;
   isCheckedAll: boolean;
-  isFixed?: boolean;
-  forwardedRef?: React.RefObject<HTMLDivElement>;
-  orderData: OrderGetInformation;
+  cartData: ShoppingCartItems[];
 }
 
 const CartSummary: React.FunctionComponent<CartSummaryProps> = ({
   setIsCheckedAll,
   isCheckedAll,
-  isFixed,
-  forwardedRef,
-  orderData,
+  cartData,
 }) => {
   const navigate = useNavigate();
   const token = localStorage.getItem('token') || '';
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [quantityTotal, setquantityTotal] = useState(0);
+  const [total, setTotal] = useState(0);
 
   const handleCheckAll = () => {
     setIsCheckedAll(!isCheckedAll);
@@ -32,13 +30,33 @@ const CartSummary: React.FunctionComponent<CartSummaryProps> = ({
 
   const handleSubmit = () => {
     setIsLoading(true);
-    updateOrderStatus(orderData);
+    // updateOrderStatus(orderData);
   };
+
+  const calculateQuantityTotal = () => {
+    let quantitySum = 0;
+    cartData.forEach((data) => {
+      quantitySum += data.quantity;
+    });
+    setquantityTotal(quantitySum);
+  };
+
+  const calculateTotal = () => {
+    let Sum = 0;
+    cartData.forEach((data) => {
+      Sum += data.item.price * data.quantity;
+    });
+    setTotal(Sum);
+  };
+
+  useEffect(() => {
+    calculateQuantityTotal();
+    calculateTotal();
+  }, [cartData]);
 
   const updateOrderStatus = useCallback(async (data) => {
     try {
       const res = await orderApi.updateOrderStatus(token, data.id, { status: 'PENDING' });
-      res && navigate(`/checkout?state=${orderData.id}`);
     } catch (error) {
       console.log('Error to update order status');
     }
@@ -46,7 +64,7 @@ const CartSummary: React.FunctionComponent<CartSummaryProps> = ({
   }, []);
 
   const handleDelete = () => {
-    navigate(`/product/${orderData.productInfo.id}`);
+    // navigate(`/product/${orderData.productInfo.id}`);
     // deleteOrder(orderData);
   };
 
@@ -59,7 +77,7 @@ const CartSummary: React.FunctionComponent<CartSummaryProps> = ({
   }, []);
 
   return (
-    <div ref={forwardedRef} className={`cart-summary ${isFixed ? 'cart-summary--fixed' : ''}`}>
+    <div className="cart-summary">
       <div className="cart-summary__voucher-wrapper">
         <span>
           <VoucherIcon />
@@ -84,9 +102,9 @@ const CartSummary: React.FunctionComponent<CartSummaryProps> = ({
         </div>
 
         <div className="cart-summary__price">
-          <span>{`${t('cart.summary')} (${1} ${t('cart.product')}):`}</span>
+          <span>{`${t('cart.summary')} (${quantityTotal} ${t('cart.product')}):`}</span>
           <span>
-            <CoinIcon /> {`${orderData.productInfo.price * orderData.quantity}`}
+            <CoinIcon /> {`${total}`}
           </span>
         </div>
 

@@ -7,7 +7,6 @@ import { CoinIcon, LocationMarkerIcon, VoucherIcon } from 'components/Icons';
 import { AddressResponse, OrderGetInformation } from 'models';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { checkoutActions } from '../checkoutSlice';
 import AddressModal from '../components/AddressModal';
 import ConfirmModal from '../components/ConfirmModal';
 import { CheckCircleFilled } from '@ant-design/icons';
@@ -27,7 +26,7 @@ const CheckoutPage: React.FunctionComponent<CheckoutPageProps> = (props) => {
   const { t } = useTranslation();
 
   const handleChangeAddress = () => {
-    dispatch(checkoutActions.setIsOpenAddressModal(true));
+    // dispatch(checkoutActions.setIsOpenAddressModal(true));
   };
 
   useEffect(() => {
@@ -52,7 +51,7 @@ const CheckoutPage: React.FunctionComponent<CheckoutPageProps> = (props) => {
   }, []);
 
   const handleCheckout = () => {
-    dispatch(checkoutActions.setIsConfirmModal(true));
+    // dispatch(checkoutActions.setIsConfirmModal(true));
   };
 
   const handleNav = () => {
