@@ -1,12 +1,14 @@
 import { Checkbox } from 'antd';
-import orderApi from 'api/orderApi';
 import itemPromotionlogo from 'assets/images/cart_item_promotion.png';
 import { CoinIcon } from 'components/Icons';
 import CustomInputNumber from 'features/product/components/CustomInputNumber';
 import { ShoppingCartItems } from 'models/shoppingCart/shoppingCartInfo';
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { setShoppingCart } from '../pages/shoppingCartSlice';
+import { changeItem } from 'utils/commonUtil';
+import shoppingCartApi from 'api/shoppingCartApi';
 
 interface ICartItemProps {
   isChecked: boolean;
@@ -14,24 +16,25 @@ interface ICartItemProps {
 }
 
 const CartItem: React.FunctionComponent<ICartItemProps> = ({ isChecked, itemData }) => {
-  const [quantity, setQuantity] = useState<number>(itemData.quantity);
-  const navigate = useNavigate();
-  const token = localStorage.getItem('token') || '';
+  const [item, setItem] = useState<ShoppingCartItems>(itemData);
+
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
 
-  const handleChangeQuantity = (value: number) => {
-    console.log('cartitem');
-    value >= 1 && setQuantity(value);
-  };
-
-  const deleteOrder = useCallback(async (data) => {
-    try {
-      await orderApi.deleteOrder(token, data.id);
-    } catch (error) {}
-  }, []);
-
-  const handleDelete = () => {
-    navigate(`/product/${itemData}`);
+  const handleChangeQuantity = async (text: string, value: number) => {
+    const res =
+      text === '+'
+        ? await shoppingCartApi.createShoppingCartItem(itemData.itemId, value)
+        : text === '-'
+        ? await shoppingCartApi.deleteShoppingCartItem(itemData.itemId, value)
+        : await shoppingCartApi.createShoppingCartItem(itemData.itemId, value - itemData.quantity);
+    if (res) {
+      const index = res.data.shoppingCartItems.findIndex((item) => item.itemId == itemData.itemId);
+      if (index > 0) {
+        setItem(res.data.shoppingCartItems[index]);
+      }
+      dispatch(setShoppingCart(res.data));
+    }
   };
 
   return (
@@ -58,14 +61,19 @@ const CartItem: React.FunctionComponent<ICartItemProps> = ({ isChecked, itemData
       </div>
 
       <div className="cart-item__quantity">
-        <CustomInputNumber value={quantity} onChange={handleChangeQuantity} />
+        <CustomInputNumber value={item.quantity} onChange={handleChangeQuantity} />
       </div>
 
       <span className="cart-item__price">
-        <CoinIcon /> {itemData.item.price * quantity}
+        <CoinIcon /> {itemData.item.price * item.quantity}
       </span>
 
-      <span className="cart-item__option--remove" onClick={handleDelete}>
+      <span
+        className="cart-item__option--remove"
+        onClick={() => {
+          handleChangeQuantity('-', item.quantity);
+        }}
+      >
         {t('cart.delete')}
       </span>
     </div>

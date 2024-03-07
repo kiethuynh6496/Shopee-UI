@@ -83,7 +83,7 @@ const ProductDetailPage: React.FunctionComponent<ProductDetailPageProps> = (prop
                 <div className="product-detail__category-container">
                   <div className="product-detail__quantity">
                     <span>{t('product.detail.quantity')}</span>
-                    <CustomInputNumber value={quantity} onChange={onChangeNumber} />
+                    <CustomInputNumber value={quantity} />
                     <span>12013 {t('product.detail.available')}</span>
                   </div>
                 </div>

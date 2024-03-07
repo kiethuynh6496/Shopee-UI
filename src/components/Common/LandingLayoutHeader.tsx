@@ -8,20 +8,28 @@ import HeaderTopNav from './HeaderTopNav';
 import { Button } from 'antd';
 import shoppingCartApi from 'api/shoppingCartApi';
 import { getCookie } from 'utils';
+import { useAppDispatch } from 'redux/hooks';
+import { setShoppingCart } from 'features/cart/pages/shoppingCartSlice';
 
 export interface LandingLayoutHeaderProps {}
 
 export const LandingLayoutHeader: React.FunctionComponent<LandingLayoutHeaderProps> = (props) => {
   const navigate = useNavigate();
-  const [count, setCount] = useState(0);
+  const [countProduct, setCountProduct] = useState<number>(0);
+  const dispatch = useAppDispatch();
 
   const getCount = useCallback(async () => {
     const res = await shoppingCartApi.getShoppingCart();
     console.log(res);
-    if (res.data.shoppingCartItems) {
-      setCount(res.data.shoppingCartItems.length);
+    if (res) {
+      dispatch(setShoppingCart(res.data));
+      let quantitySum = 0;
+      res.data.shoppingCartItems.forEach((data) => {
+        quantitySum += data.quantity;
+      });
+      setCountProduct(quantitySum);
     }
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     const userId = getCookie('userId');
@@ -65,7 +73,7 @@ export const LandingLayoutHeader: React.FunctionComponent<LandingLayoutHeaderPro
 
           <div className="landing-header__right-side">
             <Space size="large">
-              <Badge count={count}>
+              <Badge count={countProduct}>
                 <ShoppingCartOutlined onClick={handleOpenCart} />
               </Badge>
             </Space>

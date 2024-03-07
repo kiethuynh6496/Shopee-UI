@@ -13,6 +13,7 @@ interface LandingPageProps {}
 
 const LandingPage: React.FunctionComponent<LandingPageProps> = (props) => {
   const [productInfo, setProductInfo] = useState<ProductInfo[] | null>(null);
+
   const getProduct = useCallback(async () => {
     const res = await productApi.getAllProduct();
     console.log(res);

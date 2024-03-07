@@ -1,4 +1,5 @@
 import CryptoJS from 'crypto-js';
+import { ShoppingCartItems } from 'models/shoppingCart/shoppingCartInfo';
 
 // Encrypt with AES
 export const encryptAES = (text: string, key: string): string => {
@@ -14,4 +15,12 @@ export const decryptAES = (encryptedText: string, key: string): string => {
 export const getCookie = (key: string) => {
   const b = document.cookie.match('(^|;)\\s*' + key + '\\s*=\\s*([^;]+)');
   return b ? b.pop() : '';
+};
+
+export const changeItem = (
+  array: ShoppingCartItems[],
+  index: number,
+  newValue: ShoppingCartItems
+) => {
+  return [...array.slice(0, index), newValue, ...array.slice(index + 1)];
 };

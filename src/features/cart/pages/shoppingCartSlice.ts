@@ -2,11 +2,15 @@ import { createSlice } from '@reduxjs/toolkit';
 import { ShoppingCartInfo } from 'models/shoppingCart/shoppingCartInfo';
 
 interface ShoppingCartState {
-  shoppingCart: ShoppingCartInfo | null;
+  shoppingCart: ShoppingCartInfo;
 }
 
 const initialState: ShoppingCartState = {
-  shoppingCart: null,
+  shoppingCart: {
+    id: 0,
+    userId: '',
+    shoppingCartItems: [],
+  },
 };
 
 export const shoppingCartSlice = createSlice({

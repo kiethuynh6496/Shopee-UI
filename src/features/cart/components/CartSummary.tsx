@@ -2,7 +2,7 @@ import { Button, Checkbox } from 'antd';
 import orderApi from 'api/orderApi';
 import { CoinIcon, VoucherIcon } from 'components/Icons';
 import { ShoppingCartItems } from 'models/shoppingCart/shoppingCartInfo';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 

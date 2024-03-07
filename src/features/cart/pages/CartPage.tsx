@@ -7,13 +7,15 @@ import CartItem from '../components/CartItem';
 import CartSummary from '../components/CartSummary';
 import { useTranslation } from 'react-i18next';
 import shoppingCartApi from 'api/shoppingCartApi';
-import { ShoppingCartResponse } from 'models/shoppingCart/shoppingCartInfo';
 import { getCookie } from 'utils';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { setShoppingCart } from './shoppingCartSlice';
 
 interface CartPageProps {}
 
 const CartPage: React.FunctionComponent<CartPageProps> = (props) => {
-  const [shoppingCart, setShoppingCart] = useState<ShoppingCartResponse>();
+  const dispatch = useAppDispatch();
+  const { shoppingCart } = useAppSelector((state) => state.shoppingCart);
 
   const { t } = useTranslation();
   const [isCheckedAll, setIsCheckedAll] = useState<boolean>(false);
@@ -22,9 +24,9 @@ const CartPage: React.FunctionComponent<CartPageProps> = (props) => {
     const res = await shoppingCartApi.getShoppingCart();
     console.log(res);
     if (res) {
-      setShoppingCart(res);
+      dispatch(setShoppingCart(res.data));
     }
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     const userId = getCookie('userId') ?? '';
@@ -37,7 +39,7 @@ const CartPage: React.FunctionComponent<CartPageProps> = (props) => {
   const handleCheckAll = () => {
     setIsCheckedAll(!isCheckedAll);
   };
-
+  console.log(shoppingCart);
   return (
     <>
       <div className="cart">
@@ -63,8 +65,8 @@ const CartPage: React.FunctionComponent<CartPageProps> = (props) => {
             </div>
 
             <div className="cart__list">
-              {shoppingCart?.data.shoppingCartItems ? (
-                shoppingCart?.data.shoppingCartItems.map((e, i) => (
+              {shoppingCart?.shoppingCartItems ? (
+                shoppingCart?.shoppingCartItems.map((e, i) => (
                   <CartItem isChecked={isCheckedAll} key={i} itemData={e} />
                 ))
               ) : (
@@ -73,11 +75,11 @@ const CartPage: React.FunctionComponent<CartPageProps> = (props) => {
             </div>
           </div>
 
-          {shoppingCart?.data.shoppingCartItems ? (
+          {shoppingCart?.shoppingCartItems ? (
             <CartSummary
               setIsCheckedAll={setIsCheckedAll}
               isCheckedAll={isCheckedAll}
-              cartData={shoppingCart?.data.shoppingCartItems}
+              cartData={shoppingCart?.shoppingCartItems}
             />
           ) : (
             <Skeleton active />

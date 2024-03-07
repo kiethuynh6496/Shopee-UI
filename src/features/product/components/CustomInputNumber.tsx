@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 interface CustomInputNumberProps {
   value: number;
-  onChange?: (value: number) => void;
+  onChange?: (text: string, value: number) => void;
 }
 
 const CustomInputNumber: React.FunctionComponent<CustomInputNumberProps> = ({
@@ -12,13 +12,19 @@ const CustomInputNumber: React.FunctionComponent<CustomInputNumberProps> = ({
 }) => {
   const handleIncrease = () => {
     if (onChange) {
-      onChange((value || 0) + 1);
+      onChange('+', 1);
     }
   };
 
   const handleDecrease = () => {
     if (onChange) {
-      onChange((value || 0) - 1);
+      onChange('-', 1);
+    }
+  };
+
+  const handleOnchange = (newValue: number | string | undefined) => {
+    if (typeof newValue === 'number' && onChange) {
+      onChange('*', newValue);
     }
   };
 
@@ -38,7 +44,7 @@ const CustomInputNumber: React.FunctionComponent<CustomInputNumberProps> = ({
         </button>
       }
 
-      <InputNumber min={1} max={9999} defaultValue={1} value={value} onChange={onChange} />
+      <InputNumber min={1} max={9999} defaultValue={1} value={value} onChange={handleOnchange} />
 
       {
         <button className="custom-input-number-button" onClick={handleIncrease}>
