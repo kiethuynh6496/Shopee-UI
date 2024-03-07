@@ -91,7 +91,7 @@ const ProductModifyModal: React.FunctionComponent<IProductModifyModalProps> = ({
 
   const cloneUpdateData = () => {
     let newData = { ...productUpdateData };
-    delete newData?.id;
+    // delete newData.id;
     return newData;
   };
 

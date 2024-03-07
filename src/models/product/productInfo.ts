@@ -1,5 +1,5 @@
 export interface ProductInfo {
-  id?: number;
+  id: number;
   name: string;
   description: string;
   publicIdCloudary?: string;

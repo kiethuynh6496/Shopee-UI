@@ -5,9 +5,8 @@ import CustomInputNumber from 'features/product/components/CustomInputNumber';
 import { ShoppingCartItems } from 'models/shoppingCart/shoppingCartInfo';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { useAppDispatch } from 'redux/hooks';
 import { setShoppingCart } from '../pages/shoppingCartSlice';
-import { changeItem } from 'utils/commonUtil';
 import shoppingCartApi from 'api/shoppingCartApi';
 
 interface ICartItemProps {
@@ -30,7 +29,8 @@ const CartItem: React.FunctionComponent<ICartItemProps> = ({ isChecked, itemData
         : await shoppingCartApi.createShoppingCartItem(itemData.itemId, value - itemData.quantity);
     if (res) {
       const index = res.data.shoppingCartItems.findIndex((item) => item.itemId == itemData.itemId);
-      if (index > 0) {
+
+      if (index >= 0) {
         setItem(res.data.shoppingCartItems[index]);
       }
       dispatch(setShoppingCart(res.data));
@@ -52,7 +52,7 @@ const CartItem: React.FunctionComponent<ICartItemProps> = ({ isChecked, itemData
         </div>
 
         <div className="cart-item__category-wrapper">
-          <span>{`${t('cart.type')}: ${itemData.item.category.name}`}</span>
+          <span>{`${t('cart.type')}: ${itemData.item.category?.name ?? ''}`}</span>
         </div>
       </div>
 

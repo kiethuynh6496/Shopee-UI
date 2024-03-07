@@ -24,3 +24,7 @@ export const changeItem = (
 ) => {
   return [...array.slice(0, index), newValue, ...array.slice(index + 1)];
 };
+
+export const price = (inputNumber: number) => {
+  return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+};

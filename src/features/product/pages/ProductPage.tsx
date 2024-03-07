@@ -28,8 +28,8 @@ const ProductPage: React.FunctionComponent<ProductPageProps> = (props) => {
   const navigate = useNavigate();
 
   const getProduct = useCallback(async () => {
-    const res = await productApi.getAllPrivateProduct(localStorage.getItem('token') || '');
-    if (res) setProductInfo(res);
+    const res = await productApi.getAllProduct();
+    if (res) setProductInfo(res.data);
   }, []);
 
   useEffect(() => {

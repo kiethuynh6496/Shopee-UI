@@ -16,11 +16,10 @@ interface CartPageProps {}
 const CartPage: React.FunctionComponent<CartPageProps> = (props) => {
   const dispatch = useAppDispatch();
   const { shoppingCart } = useAppSelector((state) => state.shoppingCart);
-
   const { t } = useTranslation();
   const [isCheckedAll, setIsCheckedAll] = useState<boolean>(false);
 
-  const getShoppingCart = useCallback(async () => {
+  const getProduct = useCallback(async () => {
     const res = await shoppingCartApi.getShoppingCart();
     console.log(res);
     if (res) {
@@ -29,9 +28,10 @@ const CartPage: React.FunctionComponent<CartPageProps> = (props) => {
   }, [dispatch]);
 
   useEffect(() => {
+    console.log('cart');
     const userId = getCookie('userId') ?? '';
     if (userId) {
-      getShoppingCart();
+      getProduct();
       setIsCheckedAll(true);
     }
   }, []);
@@ -39,7 +39,7 @@ const CartPage: React.FunctionComponent<CartPageProps> = (props) => {
   const handleCheckAll = () => {
     setIsCheckedAll(!isCheckedAll);
   };
-  console.log(shoppingCart);
+
   return (
     <>
       <div className="cart">

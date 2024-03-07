@@ -5,13 +5,17 @@ import { useTranslation } from 'react-i18next';
 
 interface ProductDetailOptionProps {
   handleBuy: () => void;
+  addToCart: () => void;
 }
 
-const ProductDetailOption: React.FunctionComponent<ProductDetailOptionProps> = ({ handleBuy }) => {
+const ProductDetailOption: React.FunctionComponent<ProductDetailOptionProps> = ({
+  handleBuy,
+  addToCart,
+}) => {
   const { t } = useTranslation();
   return (
     <div className="product-detail__options">
-      <Button type={'default'} size={'large'} danger>
+      <Button onClick={addToCart} type={'default'} size={'large'} danger>
         <AddCartIcon />
         {t('product.detail.addCart')}
       </Button>

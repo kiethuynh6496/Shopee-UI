@@ -93,7 +93,7 @@
   },
 
   "auth": {
-    "placeholder1": "Email/Phone/Username",
+    "placeholder1": "Email",
     "placeholder2": "Password",
     "or": "OR",
     "support": "Need help?",

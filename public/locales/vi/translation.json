@@ -93,7 +93,7 @@
   },
 
   "auth": {
-    "placeholder1": "Email/Số điện thoại/Tên đăng nhập",
+    "placeholder1": "Email",
     "placeholder2": "Mật khẩu",
     "or": "HOẶC",
     "support": "Bạn cần giúp đỡ?",

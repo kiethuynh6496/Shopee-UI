@@ -3,6 +3,7 @@ import { CoinIcon } from 'components/Icons';
 import { ProductInfo } from 'models/product/productInfo';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { price } from 'utils/commonUtil';
 
 interface ProductCardProps {
   info: ProductInfo;
@@ -62,7 +63,7 @@ const ProductCard: React.FunctionComponent<ProductCardProps> = (props) => {
       </div>
       <div className="product-card__description">
         <span className="product-card__price">
-          <CoinIcon /> {info.price}
+          <CoinIcon /> {price(info.price)}
         </span>
         <span className="product-card__quantity-sold">Đã bán 4,3k</span>
       </div>
