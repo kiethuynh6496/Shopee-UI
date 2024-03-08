@@ -57,10 +57,11 @@ const AuthPage: React.FunctionComponent<AuthPageProps> = ({ isLogin }) => {
     });
 
     if (res) {
+      console.log(res);
+      localStorage.setItem('accessToken', res.data.accessToken);
+      localStorage.setItem('refreshToken', res.data.refreshToken);
+      localStorage.setItem('expiresAt', res.data.expiresAt);
       dispatch(authActions.setIsLoggedIn(true));
-      localStorage.setItem('token', res.accessToken);
-      localStorage.setItem('refreshToken', res.refreshToken);
-      localStorage.setItem('expiresAt', res.expiresAt);
       navigate('/');
     }
 

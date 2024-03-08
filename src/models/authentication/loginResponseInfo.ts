@@ -8,5 +8,5 @@ export interface LoginResponseInformation {
 export interface LoginResponse {
   statusCode: number;
   massage: string;
-  data: LoginResponseInformation[];
+  data: LoginResponseInformation;
 }

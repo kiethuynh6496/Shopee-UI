@@ -10,9 +10,9 @@ const productApi = {
     const url = `/product`;
     return axiosClient.get(url);
   },
-  getAllPrivateProduct(token: string): Promise<ProductInfo[]> {
-    const url = `/product/private`;
-    return axiosClient.get(url, config(token));
+  getProductPagination(page: number, pageSize: number): Promise<ProductResponse> {
+    const url = `/product?pageNumber=${page}&pageSize=${pageSize}`;
+    return axiosClient.get(url);
   },
   createProduct(token: string, data: ProductInfo | FormData): Promise<ProductInfo> {
     const url = `/product`;

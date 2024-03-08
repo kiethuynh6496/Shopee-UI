@@ -237,8 +237,8 @@
 
       .ant-badge{
         .ant-badge-count{
-          top: 20px;
-          right: 18px;
+          top: 19px;
+          right: 17px;
           span{
             padding: 0;
             font-size: 15px;
@@ -275,6 +275,10 @@
       max-width: 1200px;
       width: 100%;
       flex: 1;
+      .ant-pagination{
+        margin: 0 auto;
+        width: 20%;
+      }
 
       .landing-content__header {
         color: rgb(238, 77, 45);

@@ -1,9 +1,8 @@
-import { AuthInformation, LoginResponseInformation } from 'models';
+import { AuthInformation, LoginResponse } from 'models';
 import axiosClient, { config } from './axiosClient';
 
-
 const authApi = {
-  login(body: AuthInformation): Promise<LoginResponseInformation> {
+  login(body: AuthInformation): Promise<LoginResponse> {
     const url = `/auth/login`;
     return axiosClient.post(url, body);
   },

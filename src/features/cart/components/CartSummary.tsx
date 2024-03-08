@@ -5,6 +5,7 @@ import { ShoppingCartItems } from 'models/shoppingCart/shoppingCartInfo';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { price } from 'utils/commonUtil';
 
 interface CartSummaryProps {
   setIsCheckedAll: (val: boolean) => void;
@@ -104,7 +105,7 @@ const CartSummary: React.FunctionComponent<CartSummaryProps> = ({
         <div className="cart-summary__price">
           <span>{`${t('cart.summary')} (${quantityTotal} ${t('cart.product')}):`}</span>
           <span>
-            <CoinIcon /> {`${total}`}
+            <CoinIcon /> {`${price(total)}`}
           </span>
         </div>
 

@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'redux/hooks';
 import { setShoppingCart } from '../pages/shoppingCartSlice';
 import shoppingCartApi from 'api/shoppingCartApi';
+import { price } from 'utils/commonUtil';
 
 interface ICartItemProps {
   isChecked: boolean;
@@ -57,7 +58,7 @@ const CartItem: React.FunctionComponent<ICartItemProps> = ({ isChecked, itemData
       </div>
 
       <div className="cart-item__unit-price">
-        <CoinIcon /> {itemData.item.price}
+        <CoinIcon /> {price(itemData.item.price)}
       </div>
 
       <div className="cart-item__quantity">
@@ -65,7 +66,7 @@ const CartItem: React.FunctionComponent<ICartItemProps> = ({ isChecked, itemData
       </div>
 
       <span className="cart-item__price">
-        <CoinIcon /> {itemData.item.price * item.quantity}
+        <CoinIcon /> {price(itemData.item.price * item.quantity)}
       </span>
 
       <span
