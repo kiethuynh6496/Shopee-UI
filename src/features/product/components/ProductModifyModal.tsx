@@ -65,25 +65,25 @@ const ProductModifyModal: React.FunctionComponent<IProductModifyModalProps> = ({
 
   const createProduct = useCallback(async (data: ProductInfo, formData) => {
     imageApi.uploadImage(formData).then(async (response) => {
-      const res = await productApi.createProduct(token, {
-        ...data,
-        publicIdCloudary: response.data.secure_url,
-      });
+      // const res = await productApi.createProduct(token, {
+      //   ...data,
+      //   publicIdCloudary: response.data.secure_url,
+      // });
 
-      if (res) {
-        setVisible(false);
-        getProduct();
-      }
+      // if (res) {
+      //   setVisible(false);
+      //   getProduct();
+      // }
 
       form.resetFields();
     });
   }, []);
 
   const updateProduct = useCallback(async (productUpdateData, data: ProductInfo) => {
-    await productApi.updateProduct(token, productUpdateData.id, {
-      ...data,
-      publicIdCloudary: productUpdateData?.publicIdCloudary,
-    });
+    // await productApi.updateProduct(token, productUpdateData.id, {
+    //   ...data,
+    //   publicIdCloudary: productUpdateData?.publicIdCloudary,
+    // });
 
     setVisible(false);
     getProduct();

@@ -18,7 +18,6 @@
         "tran_his": "Transaction History",
         "acc_detail": "Account Information",
         "logout": "Log Out",
-        "balance": "Balance",
         "registered": "Registered",
         "unregistered": "Unregistered",
         "products": "Products"
@@ -44,8 +43,7 @@
       "video": "Video",
       "comment": "Has Comments",
       "addCart": "Add to Cart",
-      "buy_now": "Buy Now",
-      "alert_modal": "No enough balance to buy this product"
+      "buy_now": "Buy Now"
     }
   },
 

@@ -1,5 +1,18 @@
-export interface UserInformation {
+export interface Address {
+  name: string;
+  isDefault: boolean;
+}
+export interface UserInfor {
+  id: string;
+  fullName: string;
   email: string;
-  sessionId: string;
-  userId: number;
+  birthDay: string;
+  phoneNumber: string;
+  addresses: Address[];
+}
+
+export interface UserResponse {
+  statusCode: number;
+  massage: string;
+  data: UserInfor;
 }

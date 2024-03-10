@@ -26,7 +26,9 @@ const LandingPage: React.FunctionComponent<LandingPageProps> = (props) => {
     const res = await productApi.getProductPagination(page, (pageSize = 12));
     if (res.statusCode === 200) {
       setProductInfo(res.data);
-      setTotal(page * pageSize);
+      if (res.data.length >= 12) {
+        setTotal(page * pageSize);
+      }
     }
   };
 

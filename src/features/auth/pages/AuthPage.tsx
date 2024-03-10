@@ -46,12 +46,13 @@ const AuthPage: React.FunctionComponent<AuthPageProps> = ({ isLogin }) => {
     console.log('Failed:', errorInfo);
   };
 
-  const onSubmit = (values: any) => {
+  const handleSubmit = (values: any) => {
     setIsLoading(true);
-    isLogin ? handleAuth(values) : handleRegister(values);
+    isLogin ? handleLogin(values) : handleRegister(values);
   };
 
-  const handleAuth = useCallback(async (body: AuthInformation) => {
+  const handleLogin = useCallback(async (body: AuthInformation) => {
+    setIsLoading(true);
     const res = await authApi.login(body).catch((error: any) => {
       if (error.response) setError(t('auth.wrong_user_pass'));
     });
@@ -122,7 +123,7 @@ const AuthPage: React.FunctionComponent<AuthPageProps> = ({ isLogin }) => {
             <div className="auth-content__form">
               <AuthForm
                 initialValue={initialValue}
-                onSubmit={onSubmit}
+                onSubmit={handleSubmit}
                 onFail={handleFail}
                 isLoading={isLoading}
                 submitType={isLogin ? t('auth.login.signin') : t('auth.register.signup')}

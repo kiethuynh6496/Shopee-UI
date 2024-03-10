@@ -1,5 +1,5 @@
 import { ProductInfo, ProductResponse } from 'models/product/productInfo';
-import axiosClient, { config } from './axiosClient';
+import axiosClient from './axiosClient';
 
 const productApi = {
   getProduct(id: number): Promise<ProductResponse> {
@@ -14,17 +14,17 @@ const productApi = {
     const url = `/product?pageNumber=${page}&pageSize=${pageSize}`;
     return axiosClient.get(url);
   },
-  createProduct(token: string, data: ProductInfo | FormData): Promise<ProductInfo> {
+  createProduct(data: ProductInfo | FormData): Promise<ProductResponse> {
     const url = `/product`;
-    return axiosClient.post(url, data, config(token));
+    return axiosClient.post(url, data);
   },
-  deleteProduct(token: string, productId: number): Promise<void> {
+  deleteProduct(productId: number): Promise<void> {
     const url = `/product/${productId}`;
-    return axiosClient.delete(url, config(token));
+    return axiosClient.delete(url);
   },
-  updateProduct(token: string, productId: number, data: ProductInfo): Promise<void> {
+  updateProduct(productId: number, data: ProductInfo): Promise<void> {
     const url = `/product/${productId}`;
-    return axiosClient.put(url, data, config(token));
+    return axiosClient.put(url, data);
   },
 };
 

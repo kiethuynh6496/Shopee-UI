@@ -10,6 +10,7 @@ import shoppingCartApi from 'api/shoppingCartApi';
 import { getCookie } from 'utils';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { setShoppingCart } from 'features/cart/pages/shoppingCartSlice';
+import { selectIsLoggedIn } from 'features/auth/authSlice';
 
 export interface LandingLayoutHeaderProps {}
 
@@ -18,6 +19,7 @@ export const LandingLayoutHeader: React.FunctionComponent<LandingLayoutHeaderPro
   const [countProduct, setCountProduct] = useState<number>(0);
   const dispatch = useAppDispatch();
   const { shoppingCart } = useAppSelector((state) => state.shoppingCart);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
   const getCount = useCallback(async () => {
     const res = await shoppingCartApi.getShoppingCart();
@@ -37,14 +39,16 @@ export const LandingLayoutHeader: React.FunctionComponent<LandingLayoutHeaderPro
   };
 
   useEffect(() => {
-    const userId = getCookie('userId');
+    const userId = getCookie('userId') ?? '';
     if (userId) {
       getCount();
     }
   }, []);
 
   useEffect(() => {
-    setCountProduct(getNumber());
+    if (isLoggedIn) {
+      setCountProduct(getNumber());
+    }
   }, [shoppingCart]);
 
   const handleOpenCart = () => {

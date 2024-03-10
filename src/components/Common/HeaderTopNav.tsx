@@ -4,68 +4,61 @@ import authApi from 'api/authApi';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import appQrcode from 'assets/images/shopee_qrcode.png';
 import { DownIcon, HelpIcon, NotificationIcon, TranslateIcon } from 'components/Icons';
-import { CoinIcon } from 'components/Icons/CoinIcon';
 import { authActions, selectIsLoggedIn } from 'features/auth/authSlice';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import userApi from 'api/userApi';
-import { UserInformation } from 'models/user/userInformation';
+import { UserResponse } from 'models/user/userInformation';
 
 interface HeaderTopNavProps {}
 
 const HeaderTopNav: React.FunctionComponent<HeaderTopNavProps> = (props) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [userDetail, setUserDetail] = useState<UserInformation>();
+  const [userDetail, setUserDetail] = useState<UserResponse>();
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const { t, i18n } = useTranslation();
 
-  // const getUserDetail = useCallback(async () => {
-  //   const res = await userApi.getUserDetail(localStorage.getItem('token') || '').catch(() => {
-  //     dispatch(authActions.setIsLoggedIn(false));
-  //     localStorage.removeItem('token');
-  //   });
-
-  //   if (res) {
-  //     setUserDetail(res);
-  //     dispatch(authActions.setIsLoggedIn(true));
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   getUserDetail();
-  // }, []);
-
-  // const handlePopover = (value: boolean) => {
-  //   getUserDetail();
-  // };
-
-  const logout = useCallback(async () => {
-    const res = await authApi.logout(localStorage.getItem('token') || '').catch(() => {
-      localStorage.removeItem('token');
-      navigate('/');
-    });
-
-    if (res === 'success') {
+  const getUserDetail = useCallback(async () => {
+    const res = await userApi.getUserDetail().catch(() => {
       dispatch(authActions.setIsLoggedIn(false));
       localStorage.removeItem('token');
-      navigate('/login');
-    } else {
-      localStorage.removeItem('token');
+    });
+
+    if (res) {
+      setUserDetail(res);
+      dispatch(authActions.setIsLoggedIn(true));
+    }
+  }, []);
+
+  useEffect(() => {
+    getUserDetail();
+  }, []);
+
+  const handlePopover = (value: boolean) => {
+    getUserDetail();
+  };
+
+  const logout = useCallback(async () => {
+    const res = await authApi.logout().catch(() => {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('expiresAt');
       navigate('/');
+    });
+    console.log(res);
+    if (res) {
+      dispatch(authActions.setIsLoggedIn(false));
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('expiresAt');
+      navigate('/login');
     }
   }, []);
 
   const content = (
     <div className="landing-header__option-container">
-      <div className="auth-option">
-        {t('landing.header.right_side.balance')}
-        <span>
-          <CoinIcon /> "balance"
-        </span>
-      </div>
-
       <div className="auth-option" onClick={() => handleNav('/user-detail')}>
         {t('landing.header.right_side.acc_detail')}
       </div>
@@ -151,18 +144,19 @@ const HeaderTopNav: React.FunctionComponent<HeaderTopNavProps> = (props) => {
           ) : (
             <Popover
               style={{ width: '600px' }}
-              // onVisibleChange={handlePopover}
+              onVisibleChange={handlePopover}
               placement="bottomRight"
-              title={<span>{userDetail?.email}</span>}
+              title={<span>{userDetail?.data.email}</span>}
               content={content}
-              // trigger="click"
-
+              trigger="click"
               className="header-top-avatar__container"
             >
               <div className="header-top-avatar__logo">
                 <UserOutlined />
               </div>
-              <span className="header-top-avatar__name">{userDetail?.email.split('@')[0]}</span>
+              <span className="header-top-avatar__name">
+                {userDetail?.data.email.split('@')[0]}
+              </span>
             </Popover>
           )}
         </div>

@@ -1,5 +1,6 @@
 import { AuthInformation, LoginResponse } from 'models';
 import axiosClient, { config } from './axiosClient';
+import { LogoutResponse } from 'models/authentication/logoutResponse';
 
 const authApi = {
   login(body: AuthInformation): Promise<LoginResponse> {
@@ -10,9 +11,9 @@ const authApi = {
     const url = `/auth/register`;
     return axiosClient.post(url, body);
   },
-  logout(token: string): Promise<String> {
+  logout(): Promise<LogoutResponse> {
     const url = `/auth/logout`;
-    return axiosClient.post(url, {}, config(token));
+    return axiosClient.post(url);
   },
 };
 

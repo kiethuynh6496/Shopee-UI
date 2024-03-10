@@ -63,7 +63,7 @@ const ProductPage: React.FunctionComponent<ProductPageProps> = (props) => {
   };
 
   const deleteProduct = useCallback(async (id) => {
-    await productApi.deleteProduct(token, id);
+    await productApi.deleteProduct(id);
     getProduct();
   }, []);
 

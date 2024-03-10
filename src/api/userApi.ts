@@ -1,10 +1,10 @@
-import { UserInformation } from 'models/user/userInformation';
-import axiosClient, { config } from './axiosClient';
+import { UserResponse } from 'models/user/userInformation';
+import axiosClient from './axiosClient';
 
 const userApi = {
-  getUserDetail(token:string): Promise<UserInformation> {
-    const url = `/users/user-details`;
-    return axiosClient.get(url, config(token));
+  getUserDetail(): Promise<UserResponse> {
+    const url = `/auth/current-user`;
+    return axiosClient.get(url);
   },
 };
 
