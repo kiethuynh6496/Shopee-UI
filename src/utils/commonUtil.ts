@@ -28,3 +28,9 @@ export const changeItem = (
 export const price = (inputNumber: number) => {
   return inputNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 };
+
+export const clearLocalStorage = () => {
+  localStorage.removeItem('accessToken');
+  localStorage.removeItem('refreshToken');
+  localStorage.removeItem('expiresAt');
+};

@@ -20,7 +20,9 @@
         "logout": "Log Out",
         "registered": "Registered",
         "unregistered": "Unregistered",
-        "products": "Products"
+        "products": "Products",
+        "warning": "Warning",
+        "warning-description": "Please log in before buying it!"
       }
     }
   },
@@ -100,6 +102,7 @@
     "wrong_user_pass": "The username or password is incorrect",
     "input_email_alert": "Please input your email!",
     "input_pass_alert": "Please input your password!",
+    "register-success": "Your registration has been successful! Log in, please!",
 
     "register": {
       "signup": "Sign Up",

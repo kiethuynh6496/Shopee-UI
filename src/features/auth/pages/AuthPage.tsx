@@ -1,4 +1,4 @@
-import { Divider } from 'antd';
+import { Divider, notification } from 'antd';
 import authApi from 'api/authApi';
 import { useAppDispatch } from 'redux/hooks';
 import { LandingLayoutFooter } from 'components/Common';
@@ -25,6 +25,7 @@ const AuthPage: React.FunctionComponent<AuthPageProps> = ({ isLogin }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const [api, contextHolder] = notification.useNotification();
 
   const handleNavigate = () => {
     navigate('/');
@@ -76,6 +77,9 @@ const AuthPage: React.FunctionComponent<AuthPageProps> = ({ isLogin }) => {
       });
       console.log(res);
       if (res) {
+        api.success({
+          message: t('auth.register-success'),
+        });
         navigate('/login');
       }
       setIsLoading(false);
@@ -121,6 +125,7 @@ const AuthPage: React.FunctionComponent<AuthPageProps> = ({ isLogin }) => {
             )}
 
             <div className="auth-content__form">
+              {contextHolder}
               <AuthForm
                 initialValue={initialValue}
                 onSubmit={handleSubmit}

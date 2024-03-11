@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import userApi from 'api/userApi';
 import { UserResponse } from 'models/user/userInformation';
+import { clearLocalStorage } from 'utils/commonUtil';
 
 interface HeaderTopNavProps {}
 
@@ -23,7 +24,7 @@ const HeaderTopNav: React.FunctionComponent<HeaderTopNavProps> = (props) => {
   const getUserDetail = useCallback(async () => {
     const res = await userApi.getUserDetail().catch(() => {
       dispatch(authActions.setIsLoggedIn(false));
-      localStorage.removeItem('token');
+      clearLocalStorage();
     });
 
     if (res) {
@@ -42,17 +43,13 @@ const HeaderTopNav: React.FunctionComponent<HeaderTopNavProps> = (props) => {
 
   const logout = useCallback(async () => {
     const res = await authApi.logout().catch(() => {
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
-      localStorage.removeItem('expiresAt');
+      clearLocalStorage();
       navigate('/');
     });
     console.log(res);
     if (res) {
       dispatch(authActions.setIsLoggedIn(false));
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
-      localStorage.removeItem('expiresAt');
+      clearLocalStorage();
       navigate('/login');
     }
   }, []);

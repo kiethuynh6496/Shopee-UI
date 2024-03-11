@@ -1,5 +1,5 @@
 import { ShoppingCartOutlined } from '@ant-design/icons';
-import { Badge, Space } from 'antd';
+import { Badge, Space, notification } from 'antd';
 import { SearchIcon, ShopLogo } from 'components/Icons';
 import { recommentProductTagInfo } from 'constants/landing/recommentProductTagInfo';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -11,12 +11,15 @@ import { getCookie } from 'utils';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { setShoppingCart } from 'features/cart/pages/shoppingCartSlice';
 import { selectIsLoggedIn } from 'features/auth/authSlice';
+import { useTranslation } from 'react-i18next';
 
 export interface LandingLayoutHeaderProps {}
 
 export const LandingLayoutHeader: React.FunctionComponent<LandingLayoutHeaderProps> = (props) => {
   const navigate = useNavigate();
   const [countProduct, setCountProduct] = useState<number>(0);
+  const [api, contextHolder] = notification.useNotification();
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { shoppingCart } = useAppSelector((state) => state.shoppingCart);
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
@@ -52,6 +55,13 @@ export const LandingLayoutHeader: React.FunctionComponent<LandingLayoutHeaderPro
   }, [shoppingCart]);
 
   const handleOpenCart = () => {
+    if (!isLoggedIn) {
+      api.warning({
+        message: t('landing.header.right_side.warning'),
+        description: t('landing.header.right_side.warning-description'),
+      });
+      return;
+    }
     navigate('/cart');
   };
 
@@ -86,6 +96,7 @@ export const LandingLayoutHeader: React.FunctionComponent<LandingLayoutHeaderPro
 
           <div className="landing-header__right-side">
             <Space size="large">
+              {contextHolder}
               <Badge count={countProduct}>
                 <ShoppingCartOutlined onClick={handleOpenCart} />
               </Badge>

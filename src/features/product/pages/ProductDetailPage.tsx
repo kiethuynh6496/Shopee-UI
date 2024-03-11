@@ -11,19 +11,21 @@ import ProductDetailOption from '../components/ProductDetailOption';
 import ProductDetailReview from '../components/ProductDetailReview';
 import RateSummary from '../components/RateSummary';
 import { useTranslation } from 'react-i18next';
-import { Skeleton } from 'antd';
+import { Skeleton, notification } from 'antd';
 import { price } from 'utils/commonUtil';
 import shoppingCartApi from 'api/shoppingCartApi';
 import { setShoppingCart } from 'features/cart/pages/shoppingCartSlice';
+import { selectIsLoggedIn } from 'features/auth/authSlice';
 
 interface ProductDetailPageProps {}
 
 const ProductDetailPage: React.FunctionComponent<ProductDetailPageProps> = (props) => {
   const [productDetail, setProductDetail] = useState<ProductInfo>();
   const [quantity, setQuantity] = useState<number>(1);
-  const [openModal, setOpenModal] = useState<boolean>(false);
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const [api, contextHolder] = notification.useNotification();
 
   const locate = useLocation();
   const navigate = useNavigate();
@@ -41,10 +43,24 @@ const ProductDetailPage: React.FunctionComponent<ProductDetailPageProps> = (prop
   }, []);
 
   const handleBuy = () => {
+    if (!isLoggedIn) {
+      api.warning({
+        message: t('landing.header.right_side.warning'),
+        description: t('landing.header.right_side.warning-description'),
+      });
+      return;
+    }
     navigate('/cart');
   };
 
   const addToCart = async () => {
+    if (!isLoggedIn) {
+      api.warning({
+        message: t('landing.header.right_side.warning'),
+        description: t('landing.header.right_side.warning-description'),
+      });
+      return;
+    }
     const res = await shoppingCartApi.createShoppingCartItem(productId, quantity);
     dispatch(setShoppingCart(res.data));
   };
@@ -56,6 +72,10 @@ const ProductDetailPage: React.FunctionComponent<ProductDetailPageProps> = (prop
       setQuantity(quantity - 1);
     } else {
       setQuantity(value);
+    }
+
+    if (!isLoggedIn) {
+      return;
     }
 
     const res = await shoppingCartApi.getShoppingCart();
@@ -101,6 +121,7 @@ const ProductDetailPage: React.FunctionComponent<ProductDetailPageProps> = (prop
                   </div>
                 </div>
 
+                {contextHolder}
                 <ProductDetailOption handleBuy={handleBuy} addToCart={addToCart} />
 
                 <div className="product-detail__warranty">

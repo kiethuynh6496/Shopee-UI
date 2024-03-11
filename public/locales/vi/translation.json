@@ -20,7 +20,9 @@
         "logout": "Đăng Xuất",
         "registered": "Đã Đăng Ký",
         "unregistered": "Chưa Đăng Ký",
-        "products": "Quản Lý Sản Phẩm"
+        "products": "Quản Lý Sản Phẩm",
+        "warning": "Thông Báo",
+        "warning-description": "Hãy Đăng Nhập Trước Khi Mua Hàng!"
       }
     }
   },
@@ -101,6 +103,7 @@
     "wrong_user_pass": "Tên người dùng hoặc mật khẩu không chính xác",
     "input_email_alert": "Vui lòng nhập email của bạn!",
     "input_pass_alert": "Vui lòng nhập mật khẩu của bạn!",
+    "register-success": "Bạn đã đăng ký thành công! Hãy đăng nhập để mua hàng.",
 
     "register": {
       "signup": "Đăng ký",
