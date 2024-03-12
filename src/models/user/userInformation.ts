@@ -1,5 +1,5 @@
 export interface Address {
-  name: string;
+  addressName: string;
   isDefault: boolean;
 }
 export interface UserInfor {
@@ -15,4 +15,9 @@ export interface UserResponse {
   statusCode: number;
   massage: string;
   data: UserInfor;
+}
+
+export interface UserUpdateRequest {
+  fullName: string;
+  phoneNumber: string;
 }

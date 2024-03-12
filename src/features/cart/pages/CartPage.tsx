@@ -28,7 +28,6 @@ const CartPage: React.FunctionComponent<CartPageProps> = (props) => {
   }, [dispatch]);
 
   useEffect(() => {
-    console.log('cart');
     const userId = getCookie('userId') ?? '';
     if (userId) {
       getProduct();
@@ -79,7 +78,7 @@ const CartPage: React.FunctionComponent<CartPageProps> = (props) => {
             <CartSummary
               setIsCheckedAll={setIsCheckedAll}
               isCheckedAll={isCheckedAll}
-              cartData={shoppingCart?.shoppingCartItems}
+              cartData={shoppingCart}
             />
           ) : (
             <Skeleton active />

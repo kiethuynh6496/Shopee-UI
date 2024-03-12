@@ -1,10 +1,8 @@
 import { Button, Modal } from 'antd';
-import orderApi from 'api/orderApi';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { OrderAddressRequest, OrderGetInformation } from 'models';
-import React, { useCallback, useEffect, useState } from 'react';
+import { AddressResponseInfo } from 'models';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 import {
   checkoutActions,
   selectAddressIdChecked,
@@ -14,36 +12,34 @@ import {
 } from '../checkoutSlice';
 import AddressList from './AddressList';
 import CreateAddressForm from './CreateAddressForm';
+import { addressApi } from 'api/addressApi';
+import { useTranslation } from 'react-i18next';
 
 interface AddressModalProps {
-  setOrderData: (value: OrderGetInformation) => void;
+  setUserAddress: (value: AddressResponseInfo) => void;
 }
 
-const AddressModal: React.FunctionComponent<AddressModalProps> = ({ setOrderData }) => {
+const AddressModal: React.FunctionComponent<AddressModalProps> = ({ setUserAddress }) => {
   const [loading, setLoading] = useState(false);
-  const [orderId, setOrderId] = useState<number | null>(null);
   const isOpenAddressModal = useSelector(selectIsOpenAddressModal);
   const isModifyAddressStep = useAppSelector(selectIsModifyAddressStep);
-  const addressIdChecked = useAppSelector(selectAddressIdChecked);
   const updateAddressSelected = useAppSelector(selectUpdateAddressSelected);
-  const token = localStorage.getItem('token') || '';
-  const location = useLocation();
+  const addressIdChecked = useAppSelector(selectAddressIdChecked);
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
-  const handleOk = () => {
-    setLoading(true);
-    orderId && updateOrderAddress(token, orderId, { addressId: addressIdChecked });
-  };
-
-  useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-    if (location.search) {
-      const orderId = queryParams.get('state');
-      if (orderId) {
-        setOrderId(Number(orderId));
+  const handleOk = async () => {
+    if (addressIdChecked != null) {
+      setLoading(true);
+      const res = await addressApi.updateDefaultAddress(addressIdChecked.id);
+      if (res) {
+        setUserAddress(res);
+        setLoading(false);
+        dispatch(checkoutActions.setIsOpenAddressModal(false));
       }
     }
-  }, []);
+    dispatch(checkoutActions.setIsOpenAddressModal(false));
+  };
 
   const handleOpenAddressModal = (value: boolean) => {
     isModifyAddressStep
@@ -55,18 +51,6 @@ const AddressModal: React.FunctionComponent<AddressModalProps> = ({ setOrderData
     !isOpenAddressModal && dispatch(checkoutActions.setisModifyAddressStep(false));
   }, [isOpenAddressModal]);
 
-  const updateOrderAddress = useCallback(
-    async (token: string, id: number, data: OrderAddressRequest) => {
-      const res = await orderApi.updateOrderAddress(token, id, data);
-      if (res) {
-        setLoading(false);
-        setOrderData(res);
-        dispatch(checkoutActions.setIsOpenAddressModal(false));
-      }
-    },
-    []
-  );
-
   return (
     <Modal
       visible={isOpenAddressModal}
@@ -77,10 +61,10 @@ const AddressModal: React.FunctionComponent<AddressModalProps> = ({ setOrderData
       footer={
         !isModifyAddressStep && [
           <Button key="back" danger ghost onClick={() => handleOpenAddressModal(false)}>
-            {isModifyAddressStep ? 'Trở Lại' : 'Hủy'}
+            {isModifyAddressStep ? t('checkout.back') : t('checkout.cancel')}
           </Button>,
           <Button key="submit" danger type="primary" loading={loading} onClick={handleOk}>
-            Xác nhận
+            {t('checkout.confirm')}
           </Button>,
         ]
       }
@@ -89,12 +73,12 @@ const AddressModal: React.FunctionComponent<AddressModalProps> = ({ setOrderData
         <p className="address-title">
           {isModifyAddressStep ? (
             !updateAddressSelected ? (
-              <span>Địa Chỉ Mới</span>
+              <span>{t('checkout.add_new')}</span>
             ) : (
-              <span>Cập nhật địa chỉ</span>
+              <span>{t('checkout.update_address')}</span>
             )
           ) : (
-            <span>Địa Chỉ Của Tôi</span>
+            <span>{t('checkout.my_addresses')}</span>
           )}
         </p>
       </div>

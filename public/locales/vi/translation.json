@@ -22,7 +22,7 @@
         "unregistered": "Chưa Đăng Ký",
         "products": "Quản Lý Sản Phẩm",
         "warning": "Thông Báo",
-        "warning-description": "Hãy Đăng Nhập Trước Khi Mua Hàng!"
+        "warning-description": "Hãy đăng nhập trước khi mua hàng!"
       }
     }
   },
@@ -90,7 +90,14 @@
     "summary_label_nav": "Điều khoản Shopee",
     "order": "Đặt hàng",
     "order_checkouted": "Sản phẩm đã được thanh toán",
-    "continue_buy": "Tiếp Tục Mua Hàng"
+    "continue_buy": "Tiếp Tục Mua Hàng",
+    "back": "Trở Lại",
+    "cancel": "Hủy",
+    "update_address": "Cập Nhật Địa Chỉ",
+    "my_addresses": "Địa Chỉ Của Tôi",
+    "confirm": "Xác Nhận",
+    "full_name": " Họ và tên",
+    "phone": "Số điện thoại"
   },
 
   "auth": {

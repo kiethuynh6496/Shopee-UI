@@ -4,32 +4,24 @@ import {
   OrderStatus,
   OrderAddressRequest,
 } from 'models';
-import axiosClient, { config } from './axiosClient';
+import axiosClient from './axiosClient';
 
 const orderApi = {
-  createOrder(token: string, data: OrderCreateInformation): Promise<OrderCreateInformation> {
-    const url = `/orders`;
-    return axiosClient.post(url, data, config(token));
+  createOrder(data: OrderCreateInformation): Promise<OrderCreateInformation> {
+    const url = `/order`;
+    return axiosClient.post(url, data);
   },
-  getOrder(token: string, id: number): Promise<OrderGetInformation> {
-    const url = `/orders/${id}`;
-    return axiosClient.get(url, config(token));
+  getOrder(id: number): Promise<OrderGetInformation> {
+    const url = `/order/${id}`;
+    return axiosClient.get(url);
   },
-  updateOrderStatus(token: string, id: number, data: OrderStatus): Promise<OrderStatus> {
-    const url = `/orders/${id}/status`;
-    return axiosClient.patch(url, data, config(token));
+  updateOrderStatus(id: number, data: OrderStatus): Promise<OrderStatus> {
+    const url = `/order/${id}/status`;
+    return axiosClient.patch(url, data);
   },
-  deleteOrder(token: string, id: number): Promise<void> {
-    const url = `/orders/${id}`;
-    return axiosClient.delete(url, config(token));
-  },
-  updateOrderAddress(
-    token: string,
-    orderId: number,
-    data: OrderAddressRequest
-  ): Promise<OrderGetInformation> {
-    const url = `/orders/${orderId}`;
-    return axiosClient.patch(url, data, config(token));
+  deleteOrder(id: number): Promise<void> {
+    const url = `/order/${id}`;
+    return axiosClient.delete(url);
   },
 };
 

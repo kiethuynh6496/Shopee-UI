@@ -1,6 +1,5 @@
 export interface AddressRequest {
-  address: 'string';
-  detailAddress: 'string';
-  phoneNumber: 'string';
-  userName: 'string';
+  nickName: string;
+  addressName: string;
+  phone: string;
 }

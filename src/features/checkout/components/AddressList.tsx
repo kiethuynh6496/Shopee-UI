@@ -1,48 +1,51 @@
 import { Button, Radio, RadioChangeEvent, Space } from 'antd';
-import { addressApi } from 'api/addressApi';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { PlusIcon } from 'components/Icons';
-import { AddressResponse } from 'models';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   checkoutActions,
   selectAddressIdChecked,
   selectIsModifyAddressStep,
-  selectIsOpenAddressModal,
 } from '../checkoutSlice';
+import { AddressResponseInfo } from 'models/address/addressResponse';
+import { addressApi } from 'api/addressApi';
+import { useTranslation } from 'react-i18next';
 
 interface AddressListProps {}
 
 const AddressList: React.FunctionComponent<AddressListProps> = (props) => {
-  const token = localStorage.getItem('token') || '';
-  const [addressesData, setAddressesData] = useState<AddressResponse[] | null>(null);
-  const isOpenAddressModal = useAppSelector(selectIsOpenAddressModal);
+  const [userAddress, setUserAddress] = useState<AddressResponseInfo[]>();
   const isModifyAddressStep = useAppSelector(selectIsModifyAddressStep);
   const addressIdChecked = useAppSelector(selectAddressIdChecked);
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const onChange = (e: RadioChangeEvent) => {
     dispatch(checkoutActions.setAddressIdChecked(e.target.value));
   };
 
-  const getAddressesData = useCallback(async () => {
-    try {
-      const res = await addressApi.getAddresses(token);
-      if (res) setAddressesData(res);
-    } catch (error) {}
+  const getUserAddress = useCallback(async () => {
+    const res = await addressApi.getAddress();
+    console.log(res);
+    if (res) {
+      setUserAddress(res.data);
+    }
   }, []);
 
   useEffect(() => {
-    isOpenAddressModal && getAddressesData();
-  }, [isOpenAddressModal]);
+    getUserAddress();
+  }, []);
 
   useEffect(() => {
-    !isModifyAddressStep && getAddressesData();
+    !isModifyAddressStep && getUserAddress();
   }, [isModifyAddressStep]);
 
-  const handleUpdateAddress = (value: number) => {
-    dispatch(checkoutActions.setUpdateAddressSelected(value));
-    dispatch(checkoutActions.setisModifyAddressStep(true));
+  const handleDeleteAddress = async (value: number) => {
+    const res = await addressApi.deleteAddress(value);
+    if (res) {
+      console.log(res);
+      setUserAddress(res.data);
+    }
   };
 
   const handleCreateAddress = () => {
@@ -52,24 +55,21 @@ const AddressList: React.FunctionComponent<AddressListProps> = (props) => {
 
   return (
     <Radio.Group onChange={onChange} value={addressIdChecked} className="address-list">
-      {addressesData && addressesData.length > 0 && (
+      {userAddress && (
         <Space direction="vertical">
-          {addressesData.map((e, i) => (
-            <Radio key={i} value={e.id} className="address-card">
+          {userAddress.map((e, i) => (
+            <Radio key={i} value={e} className="address-card">
               <div className="address-card__info">
                 <div className="address-card__general">
-                  <span className="address-card__name">{e.userName}</span>
-
-                  <span className="address-card__phone">{e.phoneNumber}</span>
+                  <span className="address-card__name">{e.nickName}</span>
+                  <span className="address-card__name">{e.addressName}</span>
+                  <span className="address-card__phone">{e.phone}</span>
                 </div>
-
-                <p className="address-card__description">{`${e.detailAddress}, ${e.address}`}</p>
-              </div>
-
-              <div className="address-card__option">
-                <Button type="link" onClick={() => handleUpdateAddress(e.id)}>
-                  Cập nhật
-                </Button>
+                <div className="address-card__option">
+                  <Button type="link" onClick={() => handleDeleteAddress(e.id)}>
+                    {t('cart.delete')}
+                  </Button>
+                </div>
               </div>
             </Radio>
           ))}
@@ -78,13 +78,13 @@ const AddressList: React.FunctionComponent<AddressListProps> = (props) => {
 
       <Button
         className={
-          addressesData && addressesData.length > 0
+          userAddress && userAddress.length > 0
             ? 'address__add-btn'
             : 'address__add-btn address__add-btn--empty'
         }
         onClick={handleCreateAddress}
       >
-        <PlusIcon /> <span>Thêm Địa Chỉ Mới</span>
+        <PlusIcon /> <span>{t('checkout.add_new')}</span>
       </Button>
     </Radio.Group>
   );

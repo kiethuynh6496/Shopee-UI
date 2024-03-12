@@ -71,7 +71,7 @@
     "header": "Checkout",
     "address": "Shipping Address",
     "change": "Change",
-    "add_new": "Create New Address",
+    "add_new": "Add New Address",
     "default": "Default",
     "title1": "Product",
     "title2": "Unit Price",
@@ -89,7 +89,14 @@
     "summary_label_nav": "Shopee Terms",
     "order": "Place Order",
     "order_checkouted": "The product has been paid for",
-    "continue_buy": "Continue Buy"
+    "continue_buy": "Continue Buy",
+    "back": "Back",
+    "cancel": "Cancel",
+    "update_address": "Update Address",
+    "my_addresses": " My Addresses",
+    "confirm": "Confirm",
+    "full_name": "Full Name",
+    "phone": "Telephone"
   },
 
   "auth": {

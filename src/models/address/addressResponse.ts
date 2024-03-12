@@ -1,8 +1,13 @@
-export interface AddressResponse {
-  address: 'string';
-  detailAddress: 'string';
+export interface AddressResponseInfo {
   id: number;
-  phoneNumber: 'string';
-  userId: number;
-  userName: 'string';
+  nickName: string;
+  addressName: string;
+  phone: string;
+  isDefault: boolean;
+}
+
+export interface AddressResponse {
+  statusCode: number;
+  massage: string;
+  data: AddressResponseInfo[];
 }

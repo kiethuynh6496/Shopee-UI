@@ -1,46 +1,45 @@
-import { Button, Form, Input, Tabs } from 'antd';
+import { Button, Form, Input } from 'antd';
 import { useForm } from 'antd/lib/form/Form';
-import { locationApi } from 'api/locationApi';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import React, { useCallback, useEffect, useState } from 'react';
+import { checkoutActions, selectUpdateAddressSelected } from '../checkoutSlice';
+import { AddressResponse } from 'models';
 import { addressApi } from 'api/addressApi';
-import { AddressRequest, AddressResponse } from 'models';
+import { useTranslation } from 'react-i18next';
 
 interface CreateAddressFormProps {}
 
 const CreateAddressForm: React.FunctionComponent<CreateAddressFormProps> = (props) => {
-  const { TabPane } = Tabs;
-  const [activeKey, setActiveKey] = useState<string>('1');
-  const [locationData, setLocationData] = useState<any>(null);
-  const [province, setProvince] = useState<string>('');
-  const [district, setDistrict] = useState<string>('');
+  const updateAddressSelected = useAppSelector(selectUpdateAddressSelected);
   const [addressData, setAddressData] = useState<AddressResponse>();
-  const token = localStorage.getItem('token') || '';
   const [form] = useForm();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const handleAddress = (data: any) => {
-
+    if (!updateAddressSelected) {
+      createAddress(data).then(() => {
+        dispatch(checkoutActions.setisModifyAddressStep(false));
+      });
+    }
   };
 
-  const getLocationData = useCallback(async () => {
-    try {
-      const res = await locationApi.getVNLocation();
-      if (res) setLocationData(res.data);
-    } catch (error) {}
-  }, []);
-
-  const updateAddress = useCallback(async (id: number, data: AddressRequest) => {
-    await addressApi.updateAddress(id, data);
+  useEffect(() => {
+    if (updateAddressSelected) {
+      getAddressData();
+    }
   }, []);
 
   const createAddress = useCallback(async (data) => {
-    await addressApi.createAddress(data, token);
+    await addressApi.createAddress(data);
   }, []);
 
-  const getAddressData = useCallback(async (id) => {
-    const res = await addressApi.getAddress(id);
-    res && setAddressData(res);
+  const getAddressData = useCallback(async () => {
+    const res = await addressApi.getAddress();
+    if (res.statusCode === 200) {
+      console.log(res);
+      setAddressData(res);
+    }
   }, []);
 
   useEffect(() => {
@@ -60,93 +59,18 @@ const CreateAddressForm: React.FunctionComponent<CreateAddressFormProps> = (prop
       className="address-form"
     >
       <div className="address-form__field">
-        <Form.Item name={'userName'} rules={[{ required: true }]}>
-          <Input placeholder="Họ và Tên" />
+        <Form.Item name={'nickName'} rules={[{ required: true }]}>
+          <Input placeholder={t('checkout.full_name')} />
         </Form.Item>
 
-        <Form.Item name={'phoneNumber'} rules={[{ required: true }]}>
-          <Input placeholder="Số điện thoại" />
+        <Form.Item name={'phone'} rules={[{ required: true }]}>
+          <Input placeholder={t('checkout.phone')} />
         </Form.Item>
       </div>
 
       <div className="address-form__field">
-        <Form.Item name={'address'} rules={[{ required: true }]}>
-          <Input placeholder={'Tỉnh/ Thành phố, Quận/Huyện, Phường/Xã'} allowClear />
-        </Form.Item>
-      </div>
-
-      <Tabs
-        defaultActiveKey="1"
-        activeKey={activeKey}
-        onChange={(val) => setActiveKey(val)}
-        className="address-form__tabs"
-        centered
-      >
-        <TabPane tab="Tỉnh/ Thành phố" key="1" className="address-form__tab">
-          {locationData &&
-            locationData.map((e: any) => (
-              <li
-                key={e.code}
-                onClick={() => {
-                  setProvince(e.name);
-                  setActiveKey('2');
-                  form.setFieldsValue({ address: e.name });
-                }}
-              >
-                {e.name}
-              </li>
-            ))}
-        </TabPane>
-
-        <TabPane tab="Quận/Huyện" key="2" disabled={!province}>
-          {locationData &&
-            locationData
-              .filter((val: any) => val.name === province)
-              .map((e: any) =>
-                e.districts.map((i: any) => (
-                  <li
-                    onClick={() => {
-                      setDistrict(i.name);
-                      setActiveKey('3');
-                      form.setFieldsValue({ address: `${province}, ${i.name}` });
-                    }}
-                    key={i.code}
-                  >
-                    {i.name}
-                  </li>
-                ))
-              )}
-        </TabPane>
-
-        <TabPane tab="Phường/Xã" key="3" disabled={!district}>
-          {locationData &&
-            locationData
-              .filter((val: any) => val.name === province)
-              .map((e: any) =>
-                e.districts
-                  .filter((val: any) => val.name === district)
-                  .map((i: any) =>
-                    i.wards.map((j: any) => (
-                      <li
-                        onClick={() => {
-                          setActiveKey('1');
-                          form.setFieldsValue({
-                            address: `${province}, ${district}, ${j.name}`,
-                          });
-                        }}
-                        key={j.code}
-                      >
-                        {j.name}
-                      </li>
-                    ))
-                  )
-              )}
-        </TabPane>
-      </Tabs>
-
-      <div className="address-form__field">
-        <Form.Item name={'detailAddress'} rules={[{ required: true }]}>
-          <Input placeholder="Địa chỉ cụ thể" />
+        <Form.Item name={'addressName'} rules={[{ required: true }]}>
+          <Input placeholder={t('checkout.address')} />
         </Form.Item>
       </div>
 
@@ -154,12 +78,13 @@ const CreateAddressForm: React.FunctionComponent<CreateAddressFormProps> = (prop
         <Button
           danger
           ghost
+          onClick={() => dispatch(checkoutActions.setisModifyAddressStep(false))}
         >
-          Trở Lại
+          {t('checkout.back')}
         </Button>
 
         <Button danger type="primary" htmlType="submit">
-          Xác nhận
+          {t('checkout.confirm')}
         </Button>
       </div>
     </Form>
