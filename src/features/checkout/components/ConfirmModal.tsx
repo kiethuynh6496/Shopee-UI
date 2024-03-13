@@ -1,18 +1,19 @@
 import { CheckCircleFilled } from '@ant-design/icons';
 import { Button, Modal } from 'antd';
-import paymentApi from 'api/paymentApi';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { checkoutActions, selectIsConfirmModal } from '../checkoutSlice';
+import { AddressResponseInfo } from 'models/address/addressResponse';
+import orderApi from 'api/orderApi';
+import paymentApi from 'api/paymentApi';
 
 interface ConfirmModalProps {
-  // orderId: number;
+  userAddress: AddressResponseInfo | undefined;
 }
 
-const ConfirmModal: React.FunctionComponent<ConfirmModalProps> = () => {
+const ConfirmModal: React.FunctionComponent<ConfirmModalProps> = ({ userAddress }) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const token = localStorage.getItem('token') || '';
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const isConfirmModal = useAppSelector(selectIsConfirmModal);
   const navigate = useNavigate();
@@ -20,23 +21,33 @@ const ConfirmModal: React.FunctionComponent<ConfirmModalProps> = () => {
 
   const handleSubmit = () => {
     setLoading(true);
-    // handlePayment(orderId);
+    handleOrder(userAddress);
   };
 
-  const handlePayment = useCallback(async (id) => {
+  const handleOrder = useCallback(async (userAddress) => {
     try {
-      const res = await paymentApi.payment(token, id);
-
-      if (res.status === 'SUCCESS') {
+      const res = await orderApi.createOrder(userAddress);
+      if (res) {
         setLoading(false);
         setIsSuccess(true);
       }
     } catch (error) {}
   }, []);
 
-  const handleNav = () => {
-    handleOpenModal(false);
-    navigate('/');
+  const handlePayment = async () => {
+    try {
+      const res = await paymentApi.createMoMoPayment();
+      if (res) {
+        console.log(res);
+        setLoading(false);
+        window.open(res.data.paymentMomoURL, '_blank');
+        navigate('/');
+        handleOpenModal(false);
+        setIsSuccess(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleOpenModal = (value: boolean) => {
@@ -61,8 +72,8 @@ const ConfirmModal: React.FunctionComponent<ConfirmModalProps> = () => {
               </Button>,
             ]
           : [
-              <Button key="back" danger type="primary" onClick={handleNav}>
-                Continue Browsing
+              <Button key="back" danger type="primary" onClick={handlePayment}>
+                Thanh toán
               </Button>,
             ]
       }

@@ -44,7 +44,7 @@ const CartItem: React.FunctionComponent<ICartItemProps> = ({ isChecked, itemData
 
       <div className="cart-item__info-wrapper">
         <div className="cart-item__img-cover">
-          <img src={itemData.item.pictureUrl} alt="" />
+          <img src={itemData.item.pictureUrl ?? '#'} alt="" />
         </div>
 
         <div className="cart-item__info-detail">

@@ -11,9 +11,7 @@ export * from './setting/userFavoriteCurrency';
 export * from './user/user';
 
 /** Payment */
-export * from './payment/paymentStatusInfo';
-export * from './payment/paymentStripeRequest';
-export * from './payment/paymentStripeResponse';
+export * from './payment/paymentMoMoResponse';
 export * from './payment/checkoutStatus';
 
 /** Authentication */
@@ -21,8 +19,8 @@ export * from './authentication/loginInformation';
 export * from './authentication/loginResponseInfo';
 
 /** Order */
-export * from './order/orderCreateInformation';
-export * from './order/orderGetInformation';
+export * from './order/orderCreateResponse';
+export * from './order/orderGetInfo';
 export * from './order/orderStatus';
 export * from './order/orderAddressRequest';
 

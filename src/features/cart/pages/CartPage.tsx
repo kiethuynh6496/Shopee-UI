@@ -21,7 +21,6 @@ const CartPage: React.FunctionComponent<CartPageProps> = (props) => {
 
   const getProduct = useCallback(async () => {
     const res = await shoppingCartApi.getShoppingCart();
-    console.log(res);
     if (res) {
       dispatch(setShoppingCart(res.data));
     }

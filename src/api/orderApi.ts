@@ -1,14 +1,10 @@
-import {
-  OrderCreateInformation,
-  OrderGetInformation,
-  OrderStatus,
-  OrderAddressRequest,
-} from 'models';
+import { OrderCreateResponse, OrderGetInformation, OrderStatus } from 'models';
 import axiosClient from './axiosClient';
+import { OrderCreateRequest } from 'models/order/orderCreateRequest';
 
 const orderApi = {
-  createOrder(data: OrderCreateInformation): Promise<OrderCreateInformation> {
-    const url = `/order`;
+  createOrder(data: OrderCreateRequest): Promise<OrderCreateResponse> {
+    const url = `/order?nickName=${data.nickName}&addressName=${data.addressName}&phone=${data.phone}`;
     return axiosClient.post(url, data);
   },
   getOrder(id: number): Promise<OrderGetInformation> {
@@ -18,10 +14,6 @@ const orderApi = {
   updateOrderStatus(id: number, data: OrderStatus): Promise<OrderStatus> {
     const url = `/order/${id}/status`;
     return axiosClient.patch(url, data);
-  },
-  deleteOrder(id: number): Promise<void> {
-    const url = `/order/${id}`;
-    return axiosClient.delete(url);
   },
 };
 

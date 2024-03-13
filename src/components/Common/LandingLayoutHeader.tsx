@@ -27,13 +27,18 @@ export const LandingLayoutHeader: React.FunctionComponent<LandingLayoutHeaderPro
   const getCount = useCallback(async () => {
     const res = await shoppingCartApi.getShoppingCart();
     console.log(res);
-    if (res) {
-      setCountProduct(getNumber());
-      dispatch(setShoppingCart(res.data));
+    if (res.data == null) {
+      setCountProduct(0);
+      return;
     }
+    setCountProduct(getNumber());
+    dispatch(setShoppingCart(res.data));
   }, [dispatch]);
 
   const getNumber = (): number => {
+    if (shoppingCart == null) {
+      return 0;
+    }
     let quantitySum = 0;
     shoppingCart.shoppingCartItems.forEach((data) => {
       quantitySum += data.quantity;
@@ -50,6 +55,7 @@ export const LandingLayoutHeader: React.FunctionComponent<LandingLayoutHeaderPro
 
   useEffect(() => {
     if (isLoggedIn) {
+      console.log(shoppingCart);
       setCountProduct(getNumber());
     }
   }, [shoppingCart]);

@@ -16,6 +16,7 @@ import { ShoppingCartItems } from 'models/shoppingCart/shoppingCartInfo';
 import { addressApi } from 'api/addressApi';
 import { useSelector } from 'react-redux';
 import { price } from 'utils/commonUtil';
+import MoMo from 'assets/images/MoMo.png';
 
 interface CheckoutPageProps {}
 
@@ -156,6 +157,9 @@ const CheckoutPage: React.FunctionComponent<CheckoutPageProps> = (props) => {
             </div>
 
             <div className="checkout__total-container">
+              <div className="checkout__momo">
+                <img src={MoMo} alt="" />
+              </div>
               <div className="checkout__total">
                 <p className="checkout__total-label">{t('checkout.total_price')}:</p>
 
@@ -181,7 +185,7 @@ const CheckoutPage: React.FunctionComponent<CheckoutPageProps> = (props) => {
 
       <AddressModal setUserAddress={setUserAddress} />
 
-      <ConfirmModal />
+      <ConfirmModal userAddress={userAddress} />
     </>
   );
 };
