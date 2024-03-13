@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import tokenApi from './tokenApi';
 
 const axiosClient = axios.create({
   baseURL: process.env.REACT_APP_BASE_GATEWAY_URL || 'https://localhost:7047/api/v1',
@@ -41,12 +42,20 @@ axiosClient.interceptors.response.use(
   }
 );
 
-export const config = (token: string) => {
-  return {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
+const refreshToken = async () => {
+  const refresh_token = localStorage.getItem('refreshToken');
+  try {
+    const res = await tokenApi.refreshToken(refresh_token);
+    if (res.statusCode === 201) {
+      console.log(res.data.accessToken);
+      localStorage.setItem('accessToken', res.data.accessToken);
+      localStorage.setItem('refreshToken', res.data.refreshToken);
+      localStorage.setItem('expiresAt', res.data.expiresAt);
+      return res.data.accessToken;
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export default axiosClient;

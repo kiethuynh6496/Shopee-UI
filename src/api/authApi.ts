@@ -1,5 +1,5 @@
 import { AuthInformation, LoginResponse } from 'models';
-import axiosClient, { config } from './axiosClient';
+import axiosClient from './axiosClient';
 import { LogoutResponse } from 'models/authentication/logoutResponse';
 
 const authApi = {
