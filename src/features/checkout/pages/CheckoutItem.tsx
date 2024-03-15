@@ -19,7 +19,7 @@ const CheckoutItem: React.FunctionComponent<CheckoutItemProps> = (props) => {
       </div>
       <div className="checkout__variation">
         <span>
-          {t('checkout.type')}: {info.item.category.name}
+          {t('checkout.type')}: {info.item.category == null ? '' : info.item.category.name}
         </span>
       </div>
       <span className="checkout__unit-price">{price(info.item.price)}</span>

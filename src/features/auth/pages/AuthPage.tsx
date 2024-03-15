@@ -59,7 +59,6 @@ const AuthPage: React.FunctionComponent<AuthPageProps> = ({ isLogin }) => {
     });
 
     if (res) {
-      console.log(res);
       localStorage.setItem('accessToken', res.data.accessToken);
       localStorage.setItem('refreshToken', res.data.refreshToken);
       localStorage.setItem('expiresAt', res.data.expiresAt);
@@ -75,7 +74,6 @@ const AuthPage: React.FunctionComponent<AuthPageProps> = ({ isLogin }) => {
       const res = await authApi.register(body).catch((error: any) => {
         if (error.response) setError(t('auth.account_existed'));
       });
-      console.log(res);
       if (res) {
         api.success({
           message: t('auth.register-success'),

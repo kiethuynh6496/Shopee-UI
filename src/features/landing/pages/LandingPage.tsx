@@ -18,7 +18,6 @@ const LandingPage: React.FunctionComponent<LandingPageProps> = (props) => {
 
   const getProduct = useCallback(async () => {
     const res = await productApi.getAllProduct();
-    console.log(res);
     if (res.statusCode === 200) setProductInfo(res.data);
   }, []);
 

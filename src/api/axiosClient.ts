@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import tokenApi from './tokenApi';
 
 const axiosClient = axios.create({
-  baseURL: process.env.REACT_APP_BASE_GATEWAY_URL || 'https://localhost:7047/api/v1',
+  baseURL: process.env.REACT_APP_BASE_GATEWAY_URL || 'https://myshopeeapi.azurewebsites.net/api/v1',
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',

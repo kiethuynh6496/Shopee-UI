@@ -32,7 +32,6 @@ const AddressModal: React.FunctionComponent<AddressModalProps> = ({ setUserAddre
     if (addressIdChecked != null) {
       setLoading(true);
       const res = await addressApi.updateDefaultAddress(addressIdChecked.id).catch((error) => {
-        console.log(error);
         setLoading(false);
       });
       if (res) {

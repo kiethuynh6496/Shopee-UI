@@ -96,7 +96,10 @@
     "my_addresses": " My Addresses",
     "confirm": "Confirm",
     "full_name": "Full Name",
-    "phone": "Telephone"
+    "phone": "Telephone",
+    "payment" : "Pay",
+    "confirm_payment": "Have you confirmed your purchase?",
+    "make_payment": "Make payment"
   },
 
   "auth": {

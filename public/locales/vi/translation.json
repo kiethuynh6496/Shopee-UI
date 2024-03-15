@@ -97,7 +97,10 @@
     "my_addresses": "Địa Chỉ Của Tôi",
     "confirm": "Xác Nhận",
     "full_name": " Họ và tên",
-    "phone": "Số điện thoại"
+    "phone": "Số điện thoại",
+    "payment" : "Thanh toán",
+    "confirm_payment": "Bạn đã xác nhận mua hàng?",
+    "make_payment": "Tiến hành thanh toán"
   },
 
   "auth": {

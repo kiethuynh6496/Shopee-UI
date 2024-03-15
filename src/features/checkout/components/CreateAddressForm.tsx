@@ -37,7 +37,6 @@ const CreateAddressForm: React.FunctionComponent<CreateAddressFormProps> = (prop
   const getAddressData = useCallback(async () => {
     const res = await addressApi.getAddress();
     if (res.statusCode === 200) {
-      console.log(res);
       setAddressData(res);
     }
   }, []);

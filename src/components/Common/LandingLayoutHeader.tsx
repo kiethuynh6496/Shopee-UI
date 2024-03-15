@@ -26,7 +26,6 @@ export const LandingLayoutHeader: React.FunctionComponent<LandingLayoutHeaderPro
 
   const getCount = useCallback(async () => {
     const res = await shoppingCartApi.getShoppingCart();
-    console.log(res);
     if (res.data == null) {
       setCountProduct(0);
       return;
@@ -55,7 +54,6 @@ export const LandingLayoutHeader: React.FunctionComponent<LandingLayoutHeaderPro
 
   useEffect(() => {
     if (isLoggedIn) {
-      console.log(shoppingCart);
       setCountProduct(getNumber());
     }
   }, [shoppingCart]);

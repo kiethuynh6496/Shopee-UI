@@ -26,7 +26,6 @@ const AddressList: React.FunctionComponent<AddressListProps> = (props) => {
 
   const getUserAddress = useCallback(async () => {
     const res = await addressApi.getAddress();
-    console.log(res);
     if (res) {
       setUserAddress(res.data);
     }
@@ -43,7 +42,6 @@ const AddressList: React.FunctionComponent<AddressListProps> = (props) => {
   const handleDeleteAddress = async (value: number) => {
     const res = await addressApi.deleteAddress(value);
     if (res) {
-      console.log(res);
       setUserAddress(res.data);
     }
   };

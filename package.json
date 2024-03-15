@@ -1,8 +1,9 @@
 {
   "name": "front-end-ui",
+  "homepage": "https://myshopeestore.azurewebsites.net",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://localhost:7047",
+  "proxy": "https://myshopeeapi.azurewebsites.net/api/v1",
   "dependencies": {
     "@ant-design/icons": "^4.8.0",
     "@emotion/react": "^11.7.1",

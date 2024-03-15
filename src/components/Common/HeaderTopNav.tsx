@@ -22,7 +22,7 @@ const HeaderTopNav: React.FunctionComponent<HeaderTopNavProps> = (props) => {
   const { t, i18n } = useTranslation();
 
   const getUserDetail = useCallback(async () => {
-    const res = await userApi.getUserDetail().catch(() => {
+    const res = await userApi.getUserDetail().catch((error) => {
       dispatch(authActions.setIsLoggedIn(false));
       clearLocalStorage();
     });

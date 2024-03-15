@@ -7,6 +7,7 @@ import { checkoutActions, selectIsConfirmModal } from '../checkoutSlice';
 import { AddressResponseInfo } from 'models/address/addressResponse';
 import orderApi from 'api/orderApi';
 import paymentApi from 'api/paymentApi';
+import { useTranslation } from 'react-i18next';
 
 interface ConfirmModalProps {
   userAddress: AddressResponseInfo | undefined;
@@ -16,6 +17,7 @@ const ConfirmModal: React.FunctionComponent<ConfirmModalProps> = ({ userAddress 
   const [loading, setLoading] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const isConfirmModal = useAppSelector(selectIsConfirmModal);
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -38,7 +40,6 @@ const ConfirmModal: React.FunctionComponent<ConfirmModalProps> = ({ userAddress 
     try {
       const res = await paymentApi.createMoMoPayment();
       if (res) {
-        console.log(res);
         setLoading(false);
         window.open(res.data.paymentMomoURL, '_blank');
         navigate('/');
@@ -65,25 +66,25 @@ const ConfirmModal: React.FunctionComponent<ConfirmModalProps> = ({ userAddress 
         !isSuccess
           ? [
               <Button key="back" danger ghost onClick={() => handleOpenModal(false)}>
-                Hủy
+                {t('checkout.cancel')}
               </Button>,
               <Button key="submit" danger type="primary" loading={loading} onClick={handleSubmit}>
-                Xác nhận
+                {t('checkout.confirm')}
               </Button>,
             ]
           : [
               <Button key="back" danger type="primary" onClick={handlePayment}>
-                Thanh toán
+                {t('checkout.payment')}
               </Button>,
             ]
       }
     >
       <div className="confirm-modal__description">
         {!isSuccess ? (
-          <span>Bạn đã xác nhận mua hàng?</span>
+          <span>{t('checkout.confirm_payment')}</span>
         ) : (
           <>
-            <CheckCircleFilled style={{ color: '#00F295' }} /> <span>Checkout Success</span>
+            <CheckCircleFilled style={{ color: '#00F295' }} /> <span>{t('checkout.make_payment')}</span>
           </>
         )}
       </div>
