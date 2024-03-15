@@ -5,7 +5,8 @@
         "tag1": "Kênh Người Bán",
         "tag2": "Trở thành Người bán Shopee",
         "tag3": "Tải ứng dụng",
-        "tag4": "Kết nối"
+        "tag4": "Kết nối",
+        "today_suggestion": "GỢI Ý HÔM NAY"
       },
 
       "right_side": {
@@ -98,7 +99,7 @@
     "confirm": "Xác Nhận",
     "full_name": " Họ và tên",
     "phone": "Số điện thoại",
-    "payment" : "Thanh toán",
+    "payment": "Thanh toán",
     "confirm_payment": "Bạn đã xác nhận mua hàng?",
     "make_payment": "Tiến hành thanh toán"
   },

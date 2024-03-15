@@ -9,12 +9,17 @@ import Banner from '../components/Banner';
 import CategoryContainer from '../components/CategoryContainer';
 import { Skeleton } from 'antd';
 import Pagination from 'antd/es/pagination';
+import { useAppSelector } from 'redux/hooks';
+import { useTranslation } from 'react-i18next';
 
 interface LandingPageProps {}
 
 const LandingPage: React.FunctionComponent<LandingPageProps> = (props) => {
   const [productInfo, setProductInfo] = useState<ProductInfo[] | null>(null);
   const [total, setTotal] = useState<number>(12);
+  const { productList } = useAppSelector((state) => state.productList);
+  const { input } = useAppSelector((state) => state.inputSearch);
+  const { t } = useTranslation();
 
   const getProduct = useCallback(async () => {
     const res = await productApi.getAllProduct();
@@ -22,7 +27,14 @@ const LandingPage: React.FunctionComponent<LandingPageProps> = (props) => {
   }, []);
 
   const handlePagination = async (page: number, pageSize: number) => {
-    const res = await productApi.getProductPagination(page, (pageSize = 12));
+    console.log(input);
+    let res;
+    if (input.length > 0) {
+      res = await productApi.getFilterProduct(input, page, (pageSize = 12));
+    } else {
+      res = await productApi.getProductPagination(page, (pageSize = 12));
+    }
+
     if (res.statusCode === 200) {
       setProductInfo(res.data);
       if (res.data.length >= 12) {
@@ -35,6 +47,10 @@ const LandingPage: React.FunctionComponent<LandingPageProps> = (props) => {
     getProduct();
   }, []);
 
+  useEffect(() => {
+    setProductInfo(productList.data);
+  }, [productList]);
+
   return (
     <div className="container">
       <div className="landing-content">
@@ -43,7 +59,7 @@ const LandingPage: React.FunctionComponent<LandingPageProps> = (props) => {
         <CategoryContainer />
 
         <div className="landing-content__header">
-          <span>GỢI Ý HÔM NAY</span>
+          <span>{t('landing.header.left_side.today_suggestion')}</span>
         </div>
 
         <div className="landing__list-items">

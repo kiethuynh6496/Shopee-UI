@@ -42,7 +42,7 @@ const ProductDetailPage: React.FunctionComponent<ProductDetailPageProps> = (prop
     }
   }, []);
 
-  const handleBuy = () => {
+  const handleBuy = async () => {
     if (!isLoggedIn) {
       api.warning({
         message: t('landing.header.right_side.warning'),
@@ -50,7 +50,11 @@ const ProductDetailPage: React.FunctionComponent<ProductDetailPageProps> = (prop
       });
       return;
     }
-    navigate('/cart');
+    const res = await shoppingCartApi.createShoppingCartItem(productId, quantity);
+    if (res.statusCode === 201) {
+      dispatch(setShoppingCart(res.data));
+      navigate('/cart');
+    }
   };
 
   const addToCart = async () => {

@@ -14,6 +14,10 @@ const productApi = {
     const url = `/product?pageNumber=${page}&pageSize=${pageSize}`;
     return axiosClient.get(url);
   },
+  getFilterProduct(filter: string, page: number, pageSize: number): Promise<ProductResponse> {
+    const url = `/product?productName=${filter}&pageNumber=${page}&pageSize=${pageSize}`;
+    return axiosClient.get(url);
+  },
   createProduct(data: ProductInfo | FormData): Promise<ProductResponse> {
     const url = `/product`;
     return axiosClient.post(url, data);

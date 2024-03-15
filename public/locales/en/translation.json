@@ -5,7 +5,8 @@
         "tag1": "Seller Hub",
         "tag2": "Become a Shopee Seller",
         "tag3": "Download the App",
-        "tag4": "Connect"
+        "tag4": "Connect",
+        "today_suggestion": "TODAY'S SUGGESTION"
       },
 
       "right_side": {
@@ -97,7 +98,7 @@
     "confirm": "Confirm",
     "full_name": "Full Name",
     "phone": "Telephone",
-    "payment" : "Pay",
+    "payment": "Pay",
     "confirm_payment": "Have you confirmed your purchase?",
     "make_payment": "Make payment"
   },
