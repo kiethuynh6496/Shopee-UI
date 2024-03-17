@@ -29,11 +29,13 @@ export const LandingLayoutHeader: React.FunctionComponent<LandingLayoutHeaderPro
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
   const getCount = useCallback(async () => {
+    console.log('count');
     const res = await shoppingCartApi.getShoppingCart();
     if (res.data === null) {
       setCountProduct(0);
+    } else {
+      setCountProduct(getNumber());
     }
-    setCountProduct(getNumber());
     dispatch(setShoppingCart(res.data));
   }, [dispatch]);
 

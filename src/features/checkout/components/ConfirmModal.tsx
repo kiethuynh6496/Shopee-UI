@@ -8,6 +8,7 @@ import { AddressResponseInfo } from 'models/address/addressResponse';
 import orderApi from 'api/orderApi';
 import paymentApi from 'api/paymentApi';
 import { useTranslation } from 'react-i18next';
+import { setShoppingCart } from 'features/cart/pages/shoppingCartSlice';
 
 interface ConfirmModalProps {
   userAddress: AddressResponseInfo | undefined;
@@ -30,6 +31,7 @@ const ConfirmModal: React.FunctionComponent<ConfirmModalProps> = ({ userAddress 
     try {
       const res = await orderApi.createOrder(userAddress);
       if (res) {
+        dispatch(setShoppingCart(null));
         setLoading(false);
         setIsSuccess(true);
       }
@@ -84,7 +86,8 @@ const ConfirmModal: React.FunctionComponent<ConfirmModalProps> = ({ userAddress 
           <span>{t('checkout.confirm_payment')}</span>
         ) : (
           <>
-            <CheckCircleFilled style={{ color: '#00F295' }} /> <span>{t('checkout.make_payment')}</span>
+            <CheckCircleFilled style={{ color: '#00F295' }} />{' '}
+            <span>{t('checkout.make_payment')}</span>
           </>
         )}
       </div>

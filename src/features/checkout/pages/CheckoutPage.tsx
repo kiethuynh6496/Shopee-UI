@@ -122,7 +122,7 @@ const CheckoutPage: React.FunctionComponent<CheckoutPageProps> = (props) => {
             </div>
 
             <div className="checkout__product">
-              {shoppingCart.shoppingCartItems ? (
+              {shoppingCart != null ? (
                 shoppingCart.shoppingCartItems.map((e, i) => <CheckoutItem key={i} info={e} />)
               ) : (
                 <Skeleton active />
@@ -164,7 +164,7 @@ const CheckoutPage: React.FunctionComponent<CheckoutPageProps> = (props) => {
                 <p className="checkout__total-label">{t('checkout.total_price')}:</p>
 
                 <p className="checkout__total-price">
-                  <CoinIcon /> {shoppingCart.shoppingCartItems ? price(total) : 0}
+                  <CoinIcon /> {shoppingCart != null ? price(total) : 0}
                 </p>
               </div>
             </div>
