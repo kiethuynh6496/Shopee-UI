@@ -22,9 +22,11 @@ const CustomInputNumber: React.FunctionComponent<CustomInputNumberProps> = ({
     }
   };
 
-  const handleOnchange = (newValue: number | string | undefined) => {
-    if (typeof newValue === 'number' && onChange) {
-      onChange('*', newValue);
+  const handleOnchange = (newValue: number | null | undefined) => {
+    if (newValue !== null) {
+      if (typeof newValue === 'number' && onChange) {
+        onChange('*', newValue);
+      }
     }
   };
 

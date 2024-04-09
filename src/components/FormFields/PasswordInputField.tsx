@@ -39,9 +39,9 @@ export const PasswordInputField: React.FunctionComponent<PasswordInputFieldProps
         onBlur={onBlur}
         {...otherProps}
       />
-      {errors?.[name] && (
+      {errors && errors[name] && (
         <span className={`form__form-group-error ${errorClassName ? errorClassName : ''}`}>
-          {errors[name].message}
+          {errors[name]?.message ?? ''}
         </span>
       )}
     </div>
